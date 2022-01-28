@@ -1,0 +1,79 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">{{ "MENU.MAINTAINERS.GENERAL" | translate }}</h3>
+    </div>
+  </div>
+  <div class="card-body">
+    <form class="form form-label-right" [formGroup]="formGroup">
+      <div class="form-group row">
+        <div class="col-lg-4">
+          <mat-form-field class="ols-form-control" appearance="fill">
+            <mat-label [translate]="'MENU.MAINTAINERS.FLD_FIELD'"></mat-label>
+            <mat-select
+              formControlName="field"
+              [(value)]="service"
+              (selectionChange)="applyFilter()"
+            >
+              <mat-option [value]="-1">--</mat-option>
+              <mat-option
+                #matOption
+                *ngFor="let element of selectSource"
+                [value]="element.id"
+                (click)="click(element.value)"
+              >
+                {{ element.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+    <div class="row ml-0 mb-5">
+      <div class="float-left">
+        <button (click)="create(null)" mat-raised-button color="warn">
+          {{ "BUTTONS.ADD" | translate }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-50">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>#</th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          {{ i + 1 + paginator.pageIndex * paginator.pageSize }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="value">
+        <th mat-header-cell *matHeaderCellDef>Valor</th>
+        <td mat-cell *matCellDef="let element">{{ element.value }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <button (click)="create(element)" mat-icon-button color="primary">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button (click)="delete(element)" mat-icon-button color="primary">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+      #paginator
+      class="w-50"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      [showFirstLastButtons]="buttonfl"
+    >
+    </mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,404 @@
+<app-base-modal [modalTitle]="'VM.AUDITORY.ACTION_PLANS.ADD' | translate">
+    <div modal-body>
+        <form class="form form-label-right" [formGroup]="formGroup">
+            <div class="row" class="text-center">
+                <div class="col-lg-12">
+                    <p *ngIf="formGroup.get('id').value">Plan de acción: {{ formGroup.get('id').value }} </p>
+                    <p *ngIf="formGroup.get('idTicket').value">Ticket asociado: {{ formGroup.get('idTicket').value }}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div [ngClass]="isNewTicket ? 'col-lg-12' : 'col-lg-6'">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.ACCOUNTABLE'"></mat-label>
+                        <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.ACCOUNTABLE' | translate"
+                            formControlName="accountable" [maxlength]="maxLength.GENERAL" [readonly]="!isNewTicket" required />
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.accountable, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!--  -->
+                <div class="col-lg-6" *ngIf="reasignFlag">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.ACCOUNTABLE_E'"></mat-label>
+                        <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.ACCOUNTABLE_E' | translate"
+                            formControlName="accountableE" [maxlength]="maxLength.GENERAL" required />
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.accountable, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!--  -->
+                <div [ngClass]="isNewTicket ? 'col-lg-6' : 'col-lg-3'">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.COUNTRY'"></mat-label>
+                        <mat-select formControlName="accountableCountry" [disabled]="!isNewTicket" required>
+                            <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                            <mat-option [value]="country.id" *ngFor="let country of countries">{{ country.value }}</mat-option>
+                        </mat-select>
+                        <!-- <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.COUNTRY' | translate"
+                            formControlName="accountableCountry" [maxlength]="maxLength.GENERAL" required /> -->
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.accountableCountry, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div [ngClass]="isNewTicket ? 'col-lg-6' : 'col-lg-3'">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.TEAM'"></mat-label>
+                        <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.TEAM' | translate"
+                            formControlName="accountableTeam" [maxlength]="maxLength.GENERAL" [readonly]="!isNewTicket" required />
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.accountableTeam, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!--  -->
+                <div class="col-lg-3" *ngIf="reasignFlag">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.COUNTRY'"></mat-label>
+                        <mat-select formControlName="accountableCountryE" required>
+                            <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                            <mat-option [value]="country.id" *ngFor="let country of countries">{{ country.value }}</mat-option>
+                        </mat-select>
+                        <!-- <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.COUNTRY' | translate"
+                            formControlName="accountableCountry" [maxlength]="maxLength.GENERAL" required /> -->
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.accountableCountry, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-3" *ngIf="reasignFlag">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.TEAM'"></mat-label>
+                        <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.TEAM' | translate"
+                            formControlName="accountableTeamE" [maxlength]="maxLength.GENERAL" required />
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.accountableTeam, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!--  -->
+                <div [ngClass]="isNewTicket ? 'col-lg-12' : 'col-lg-6'">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.ASSIGNED'"></mat-label>
+                        <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.ASSIGNED' | translate"
+                            formControlName="assigned" [maxlength]="maxLength.GENERAL" [readonly]="!isNewTicket" required />
+                        <!-- <mat-select formControlName="assigned" required>
+                            <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                            <mat-option [value]="responsable.id" *ngFor="let responsable of responsableList">{{ responsable.description }}</mat-option>
+                        </mat-select> -->
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.assigned, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!--  -->
+                <div class="col-lg-6" *ngIf="reasignFlag">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.ASSIGNED_E'"></mat-label>
+                        <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.ASSIGNED_E' | translate"
+                            formControlName="assignedE" [maxlength]="maxLength.GENERAL" required />
+                        <!-- <mat-select formControlName="assignedE" required>
+                            <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                            <mat-option [value]="responsable.id" *ngFor="let responsable of responsableList">{{ responsable.description }}</mat-option>
+                        </mat-select> -->
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.assigned, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!--  -->
+                <div [ngClass]="isNewTicket ? 'col-lg-6' : 'col-lg-3'">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.COUNTRY'"></mat-label>
+                        <mat-select formControlName="assignedCountry"  [disabled]="!isNewTicket" required>
+                            <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                            <mat-option [value]="country.id" *ngFor="let country of countries">{{ country.value }}</mat-option>
+                        </mat-select>
+                        <!-- <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.COUNTRY' | translate"
+                            formControlName="assignedCountry" [maxlength]="maxLength.GENERAL" required /> -->
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.assignedCountry, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div [ngClass]="isNewTicket ? 'col-lg-6' : 'col-lg-3'">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.TEAM'"></mat-label>
+                        <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.TEAM' | translate"
+                            formControlName="assignedTeam" [maxlength]="maxLength.GENERAL" [readonly]="!isNewTicket" required />
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.assignedTeam, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!--  -->
+                <div class="col-lg-3" *ngIf="reasignFlag">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.COUNTRY'"></mat-label>
+                        <mat-select formControlName="assignedCountryE" required>
+                            <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                            <mat-option [value]="country.id" *ngFor="let country of countries">{{ country.value }}</mat-option>
+                        </mat-select>
+                        <!-- <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.COUNTRY' | translate"
+                            formControlName="assignedCountry" [maxlength]="maxLength.GENERAL" required /> -->
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.assignedCountry, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-3" *ngIf="reasignFlag">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.TEAM'"></mat-label>
+                        <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.TEAM' | translate"
+                            formControlName="assignedTeamE" [maxlength]="maxLength.GENERAL" required />
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.assignedTeam, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!--  -->
+                <div [ngClass]="isNewTicket ? 'col-lg-12' : 'col-lg-6'">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.UPDATER'"></mat-label>
+                        <mat-select formControlName="updater" [disabled]="!isNewTicket" (selectionChange)="setUpdaterName()" required>
+                            <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                            <mat-option [value]="executer.id" *ngFor="let executer of executerList">{{ executer.name }}</mat-option>
+                        </mat-select>
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.updater, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!--  -->
+                <div class="col-lg-6" *ngIf="reasignFlag">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.UPDATER_E'"></mat-label>
+                        <mat-select formControlName="updaterE" [required]="reasignFlag">
+                            <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                            <mat-option [value]="executer.id" *ngFor="let executer of executerList">{{ executer.name }}</mat-option>
+                        </mat-select>
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.updater, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!--  -->
+                <div [ngClass]="isNewTicket ? 'col-lg-6' : 'col-lg-3'">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.COUNTRY'"></mat-label>
+                        <mat-select formControlName="updaterCountry" [disabled]="!isNewTicket" required>
+                            <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                            <mat-option [value]="country.id" *ngFor="let country of countries">{{ country.value }}</mat-option>
+                        </mat-select>
+                        <!-- <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.COUNTRY' | translate"
+                            formControlName="updaterCountry" [maxlength]="maxLength.GENERAL" required /> -->
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.updaterCountry, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div [ngClass]="isNewTicket ? 'col-lg-6' : 'col-lg-3'">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.TEAM'"></mat-label>
+                        <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.TEAM' | translate"
+                            formControlName="updaterTeam" [maxlength]="maxLength.GENERAL" [readonly]="!isNewTicket" required />
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.updaterTeam, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!--  -->
+                <div class="col-lg-3" *ngIf="reasignFlag">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.COUNTRY'"></mat-label>
+                        <mat-select formControlName="updaterCountryE" required>
+                            <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                            <mat-option [value]="country.id" *ngFor="let country of countries">{{ country.value }}</mat-option>
+                        </mat-select>
+                        <!-- <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.COUNTRY' | translate"
+                            formControlName="updaterCountry" [maxlength]="maxLength.GENERAL" required /> -->
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.updaterCountry, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-3" *ngIf="reasignFlag">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.TEAM'"></mat-label>
+                        <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.TEAM' | translate"
+                            formControlName="updaterTeamE" [maxlength]="maxLength.GENERAL" required />
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.updaterTeam, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!--  -->
+
+                <div [ngClass]="isNewTicket ? 'col-lg-12' : 'col-lg-6 col-lg-offset-6'">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.PROGRESS'"></mat-label>
+                        <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.PROGRESS' | translate" appPercentage
+                            formControlName="progress" [maxlength]="maxLength.GENERAL" required />
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.progress, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div [ngClass]="isNewTicket ? 'col-lg-12' : 'col-lg-6 col-lg-offset-6'">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS_COL.STATUS'"></mat-label>
+                        <mat-select formControlName="idStatus" required>
+                            <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                            <mat-option [value]="ticketStatus.id" *ngFor="let ticketStatus of ticketStatusArray">{{ ticketStatus.description | translate }}</mat-option>
+                        </mat-select>
+                        <!-- <input matInput [placeholder]="'AUDITORY.ACTION_PLANS_COL.STATUS' | translate"
+                            formControlName="idStatus" [maxlength]="maxLength.GENERAL" required /> -->
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.status, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div [ngClass]="isNewTicket ? 'col-lg-12' : 'col-lg-6 col-lg-offset-6'">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS.MODAL.HEALTH_STATUS'"></mat-label>
+                        <mat-select formControlName="healthStatus" required>
+                            <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                            <mat-option [value]="healthStatus.id" *ngFor="let healthStatus of healthStatusList">{{ healthStatus.description }}</mat-option>
+                        </mat-select>
+                        <!-- <input matInput [placeholder]="'AUDITORY.ACTION_PLANS.MODAL.HEALTH_STATUS' | translate"
+                            formControlName="healthStatus" [maxlength]="maxLength.GENERAL" required /> -->
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.healthStatus, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div [ngClass]="isNewTicket ? 'col-lg-12' : 'col-lg-6 col-lg-offset-6'">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS.MODAL.CLOSED_DATE'"></mat-label>
+                        <input matInput type="date" [placeholder]="'AUDITORY.ACTION_PLANS.MODAL.CLOSED_DATE' | translate"
+                            formControlName="closeDate" [maxlength]="maxLength.GENERAL" required />
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.closeDate, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-12">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS.MODAL.DESCRIPTION'"></mat-label>
+                        <textarea matInput name="" formControlName="description" id="" cols="15" rows="5"
+                            [placeholder]="'AUDITORY.ACTION_PLANS.MODAL.DESCRIPTION' | translate"></textarea>
+                        <!-- <input matInput [placeholder]="'AUDITORY.ACTION_PLANS.MODAL.DESCRIPTION' | translate"
+                            formControlName="description" [maxlength]="maxLength.GENERAL" required /> -->
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.description, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-12">
+                    <mat-form-field class="ols-form-control" appearance="fill">
+                        <mat-label [translate]="'AUDITORY.ACTION_PLANS.MODAL.COMMENT'"></mat-label>
+                        <textarea matInput name="" formControlName="comment" id="" cols="15" rows="5"
+                            [placeholder]="'AUDITORY.ACTION_PLANS.MODAL.COMMENT' | translate"></textarea>
+                        <!-- <input matInput [placeholder]="'AUDITORY.ACTION_PLANS.MODAL.COMMENT' | translate"
+                            formControlName="comment" [maxlength]="maxLength.GENERAL" required /> -->
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.comment, 
+                  [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div modal-footer *ngIf="(isNewTicket || idStatus == 104) && (idStatus != 7 && idStatus != 8)">
+        <button class="mr-6" mat-raised-button color="warn" (click)="closeModal()">
+            {{ 'BUTTONS.CANCEL' | translate}}
+        </button>
+        <button mat-raised-button color="warn" (click)="save()">
+            {{ 'BUTTONS.SAVE' | translate}}
+        </button>
+    </div>
+    <div modal-footer *ngIf="(!isNewTicket && idStatus != 104) && (idStatus != 7 && idStatus != 8)">
+        <div class="row">
+            <div class="col">
+                <button mat-raised-button color="warn" (click)="closeModal2()">
+                    {{ 'BUTTONS.CANCEL' | translate }}
+                </button>
+            </div>
+            <div class="col">
+                <button mat-raised-button color="warn" (click)="update()">
+                    {{ 'BUTTONS.SAVE' | translate }}
+                </button>
+            </div>
+            <!-- <div class="col">
+                <button mat-raised-button color="warn" (click)="delete()">
+                    {{ 'BUTTONS.DELETE' | translate }}
+                </button>
+            </div> -->
+            <div class="col">
+                <button mat-raised-button color="warn" (click)="reasign()">
+                    {{ 'VM.BTN.REASIGN_TICKET' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div modal-footer *ngIf="idStatus == 7 || idStatus == 8">
+        <div class="row">
+            <div class="col">
+                <button mat-raised-button color="warn" (click)="closeModal2()">
+                    {{ 'BUTTONS.ACCEPT' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</app-base-modal>

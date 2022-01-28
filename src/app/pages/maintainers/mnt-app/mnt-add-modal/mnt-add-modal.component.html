@@ -1,0 +1,144 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <ng-container >        
+        <ng-container *ngIf="data.id == 0">{{'MODALS.TITLE_CREATE' | translate}}</ng-container>        
+        <ng-container *ngIf="data.id > 0">{{'MODALS.TITLE_UPDATE' | translate}}</ng-container>
+          {{ 'MODALS.MNT.PROPERTY' | translate}}
+        <ng-container *ngIf="data.id > 0">: {{label}}</ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">    
+    <div class="card-body">
+      <form class="form form-label-right" [formGroup]="formGroup">
+        <div class="form-group row">
+          <div class="col-lg-6">
+            <mat-form-field class="ols-form-control" appearance="fill"><!--1-->
+              <mat-label [translate]="'MENU.MAINTAINERS.REGION'"></mat-label>
+              <mat-select formControlName="region" [(value)]="item._region" (selectionChange)="countryFilter()">              
+                <mat-option [value]="-99">--</mat-option>
+                <mat-option *ngFor="let element of regionSource" [value]="element.id">
+                  {{element.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <mat-form-field class="ols-form-control" appearance="fill">
+              <mat-label [translate]="'MENU.MAINTAINERS.COUNTRY'"></mat-label>
+              <mat-select formControlName="country" [(value)]="item._country" (selectionChange)="entityFilter()">              
+                <!--<mat-option [value]="-99">--</mat-option>-->
+                <mat-option *ngFor="let element of countrySource" [value]="element.id">
+                  {{element.value}}
+                </mat-option>          
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+         <div class="form-group row">
+          <div class="col-lg-6">
+            <mat-form-field class="ols-form-control" appearance="fill">
+              <mat-label [translate]="'MENU.MAINTAINERS.ENTITY'"></mat-label>
+              <mat-select formControlName="entity" [(value)]="item._entity" (selectionChange)="bussinessFilter()">              
+                <!--<mat-option [value]="-99">--</mat-option>-->
+                <mat-option *ngFor="let element of entitySource" [value]="element.id">
+                  {{element.value}}
+                </mat-option>       
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <mat-form-field class="ols-form-control" appearance="fill">
+              <mat-label [translate]="'MENU.MAINTAINERS.BS_UNIT'"></mat-label>
+              <mat-select formControlName="bussiness_unit" [(value)]="item._bussiness" (selectionChange)="bussinessClick()">              
+                <!--<mat-option [value]="-99">--</mat-option>-->
+                <mat-option *ngFor="let element of bussinessSource" [value]="element.id" (click)="verifyActivity(item._bussiness)">
+                  {{element.value}}
+                </mat-option>            
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+          
+          <div class="form-group row">
+              <div class="col-lg-4">
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'MENU.MAINTAINERS.EPM_CODE'"></mat-label>
+                    <input matInput [placeholder]="'MENU.MAINTAINERS.EPM_CODE' | translate" formControlName="epm">
+                    <mat-error>
+                      <app-control-error [validationSignal]="validatorService.validateArray(formControls.epm, 
+                      [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)},
+                      {valType:'pattern',message:('VALIDATION.ERROR.PATTERN' | translate)}])">
+                      </app-control-error>
+                    </mat-error>
+                  </mat-form-field>
+              </div>
+              <div class="col-lg-8">
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'MENU.MAINTAINERS.APP_NAME'"></mat-label>
+                    <input matInput [placeholder]="'MENU.MAINTAINERS.APP_NAME' | translate" formControlName="name">
+                    <mat-error>
+                      <app-control-error [validationSignal]="validatorService.validateArray(formControls.name, 
+                      [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)},
+                      {valType:'pattern',message:('VALIDATION.ERROR.PATTERN' | translate)}])">
+                      </app-control-error>
+                    </mat-error>
+                  </mat-form-field>
+              </div> 
+         </div> 
+         <ng-container >
+            <div class="form-group row">
+              <mat-label style="margin:0px 5px 10px 0px;" [translate]="'COMBO.CHECK.DETAIL'"></mat-label>       
+              <div class="col-lg-12">                   
+                  <mat-checkbox style="margin-right: 15px;" color="warn" formControlName="paymentSystem" [checked]="isChecked" (change)="checkCheckBoxvalue()" >
+                      {{'COMBO.CHECK.PAYMENT' | translate}}</mat-checkbox>
+      
+                  <mat-checkbox style="margin-right: 15px;" color="warn" formControlName="cia" (change)="checkCheckBoxvalue()">
+                      {{'COMBO.CHECK.CIA' | translate}}</mat-checkbox> 
+                  
+                  <mat-checkbox style="margin-right: 15px;" color="warn" formControlName="mobile" (change)="checkCheckBoxvalue()">
+                      {{'COMBO.CHECK.MOBIL' | translate}}</mat-checkbox>                                                   
+              </div>
+              <div class="col-lg-12">
+                  <mat-checkbox style="margin-right: 15px;" color="warn" formControlName="other" (change)="checkCheckBoxvalue()">
+                      {{'COMBO.CHECK.OTHER' | translate}}</mat-checkbox>
+  
+                  <mat-checkbox style="margin-right: 15px;" color="warn" formControlName="internetBanking" (change)="checkCheckBoxvalue()">
+                      {{'COMBO.CHECK.INTERNETBANK' | translate}}</mat-checkbox>
+                  
+                  <mat-checkbox style="margin-right: 15px;" color="warn" formControlName="abm" (change)="checkCheckBoxvalue()">
+                      {{'COMBO.CHECK.ABM' | translate}}</mat-checkbox>                                           
+              </div>
+              <div class="col-lg-12">
+                  <mat-checkbox style="margin-right: 15px;" color="warn" formControlName="contactCenter" (change)="checkCheckBoxvalue()">
+                      {{'COMBO.CHECK.OTHER' | translate}}</mat-checkbox>
+                          
+                  <mat-checkbox style="margin-right: 15px;" color="warn" formControlName="branches" (change)="checkCheckBoxvalue()">
+                      {{'COMBO.CHECK.BRANCHES' | translate}}</mat-checkbox>
+  
+                  <mat-checkbox style="margin-right: 15px;" color="warn" formControlName="others" (change)="checkCheckBoxvalue()">
+                      {{'COMBO.CHECK.OTHERS' | translate}}</mat-checkbox>       
+              </div>
+              <!--<div *ngFor="let details of detailKist.controls['myCategory'].controls; let i = index">
+                <input type="checkbox" [formControl]="details">
+                <label>{{ categories[i].name }}</label>
+              </div>-->
+          </div>   
+        </ng-container> 
+            
+      </form>
+    </div>
+    
+  </div>
+  <div class="modal-footer">
+    <button ngbAutofocus type="button" class="btn btn-light btn-elevate mr-2" (click)="closeModal()">
+      {{ 'BUTTONS.CANCEL' | translate}}
+    </button>
+    <ng-container >
+      <button type="submit" class="btn btn-primary btn-elevate" (click)="optioner()">
+        {{ 'BUTTONS.SAVE' | translate}}
+      </button>
+    </ng-container>
+  </div>
+</div>

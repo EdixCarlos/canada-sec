@@ -1,0 +1,467 @@
+<app-card-container [titleCard]="'AUDITORY.TITLE' | translate">
+    <form class="form form-label-right" [formGroup]="formGroup">
+        <div class="form-group row">
+            <div class="col-lg-8" *ngIf="!toUpdate">
+                <div class="form-group row">
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'VM.FLD.REQUESTED_BY'"></mat-label>
+                            <input matInput [placeholder]="'VM.FLD.REQUESTED_BY' | translate" [minlength]="minLength.GENERAL"
+                                [maxlength]="maxLength.GENERAL" formControlName="requestedBy" readonly required />
+                            <mat-error>
+                                <app-control-error [validationSignal]="
+                                                validatorService.validateArray(formControls.requestedBy, [
+                                                  {
+                                                    valType: 'required',
+                                                    message: ('VALIDATION.ERROR.REQUIRED' | translate)
+                                                  }
+                                                ])
+                                              ">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'VM.FLD.EMAIL'"></mat-label>
+                            <input matInput type="email" appEmail [placeholder]="'VM.FLD.EMAIL' | translate"
+                                [minlength]="minLength.EMAIL" [maxlength]="maxLength.EMAIL" formControlName="email" required />
+                            <mat-error>
+                                <app-control-error [validationSignal]="
+                                            validatorService.validateArray(formControls.email, [
+                                              {
+                                                valType: 'required',
+                                                message: ('VALIDATION.ERROR.REQUIRED' | translate)
+                                              },
+                                              {
+                                                valType: 'email',
+                                                message: ('VALIDATION.ERROR.EMAIL' | translate)
+                                              }
+                                            ])
+                                          ">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'VM.FLD.SCOTIA_ID'"></mat-label>
+                            <input matInput [placeholder]="'VM.FLD.SCOTIA_ID' | translate" [minlength]="minLength.GENERAL"
+                                [maxlength]="maxLength.GENERAL" formControlName="id" required />
+                            <mat-error>
+                                <app-control-error [validationSignal]="
+                                            validatorService.validateArray(formControls.id, [
+                                              {
+                                                valType: 'required',
+                                                message: ('VALIDATION.ERROR.REQUIRED' | translate)
+                                              }
+                                            ])
+                                          ">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'VM.FLD.REQUEST_AREA'"></mat-label>
+                            <input matInput [placeholder]="'VM.FLD.REQUEST_AREA' | translate" formControlName="requestArea"
+                                readonly />
+                            <mat-error>
+                                <app-control-error [validationSignal]="
+                                            validatorService.validateArray(formControls.requestArea, [
+                                              {
+                                                valType: 'required',
+                                                message: ('VALIDATION.ERROR.REQUIRED' | translate)
+                                              }
+                                            ])
+                                          ">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <div class="mat-form-field-wrapper" *ngIf="isNewTicket || ticket.idStatus == 104">
+                            <button (click)="openRegionModal()" mat-raised-button color="warn">
+                                <mat-icon matPrefix>language</mat-icon>
+                                {{ "VM.BTN.REGION" | translate }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field style="display: none" class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'VM.FLD.SELECTED_REGIONS'"></mat-label>
+                            <input matInput [placeholder]="'VM.FLD.SELECTED_REGIONS' | translate"
+                                formControlName="selectedRegions" readonly />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field style="display: none" class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'VM.FLD.SELECTED_COUNTRIES'"></mat-label>
+                            <input matInput [placeholder]="'VM.FLD.SELECTED_COUNTRIES' | translate"
+                                formControlName="selectedCountries" readonly />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field style="display: none" class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'VM.FLD.ENTITY'"></mat-label>
+                            <input matInput [placeholder]="'VM.FLD.ENTITY' | translate" formControlName="entity" readonly />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'VM.FLD.SELECTED_REGIONS'"></mat-label>
+                            <input matInput [placeholder]="'VM.FLD.SELECTED_REGIONS' | translate" [value]="regionDesc"
+                                readonly />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'VM.FLD.SELECTED_COUNTRIES'"></mat-label>
+                            <input matInput [placeholder]="'VM.FLD.SELECTED_COUNTRIES' | translate" [value]="countriesList"
+                                readonly />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'VM.FLD.ENTITY'"></mat-label>
+                            <input matInput [placeholder]="'VM.FLD.ENTITY' | translate" [value]="entitiesList" readonly />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'AUDITORY.FLD.OBSERVATION_CODE'"></mat-label>
+                            <input matInput [placeholder]="'AUDITORY.FLD.OBSERVATION_CODE' | translate"
+                                formControlName="observationCode" [maxlength]="maxLength.GENERAL" required />
+                            <mat-error>
+                                <app-control-error [validationSignal]="validatorService.validateArray(formControls.observationCode, 
+                        [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'AUDITORY.FLD.OBSERVATION_NAME'"></mat-label>
+                            <input matInput [placeholder]="'AUDITORY.FLD.OBSERVATION_NAME' | translate"
+                                formControlName="observationName" [maxlength]="maxLength.GENERAL" required />
+                            <mat-error>
+                                <app-control-error [validationSignal]="validatorService.validateArray(formControls.observationName, 
+                        [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'AUDITORY.FLD.DESCRIPTION'"></mat-label>
+                            <textarea matInput [placeholder]="'AUDITORY.FLD.DESCRIPTION' | translate"
+                                formControlName="description" cols="30" rows="10" [maxlength]="maxLength.COMMENTS" required></textarea>
+                            <mat-error>
+                                <app-control-error [validationSignal]="validatorService.validateArray(formControls.description, 
+                        [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'VM.AVS.WEB-INS.EPM_CODE'"></mat-label>
+                            <input matInput [placeholder]="'VM.AVS.WEB-INS.EPM_CODE' | translate" formControlName="epmCode"
+                                [minlength]="minLength.GENERAL" [maxlength]="maxLength.GENERAL" required />
+                            <mat-icon *ngIf="isNewTicket || ticket.idStatus == 104" style="cursor: pointer"
+                                (click)="searchEMPCode()" matSuffix>search</mat-icon>
+                            <mat-error>
+                                <app-control-error [validationSignal]="
+                                            validatorService.validateArray(formControls.epmCode, [
+                                              {
+                                                valType: 'required',
+                                                message: ('VALIDATION.ERROR.REQUIRED' | translate)
+                                              }
+                                            ])
+                                          ">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'VM.AVS.WEB-INS.APPLICATION_NAME'"></mat-label>
+                            <mat-select formControlName="applicationName" (selectionChange)="onApplicationChange()" required>
+                                <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                                <mat-option [value]="0">Otra aplicaci&oacute;n</mat-option>
+                                <mat-option *ngFor="let application of applicationList" [value]="application.id">
+                                    {{ application.entity }} - {{ application.name }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                <app-control-error [validationSignal]="
+                                            validatorService.validateArray(formControls.applicationName, [
+                                              {
+                                                valType: 'required',
+                                                message: ('VALIDATION.ERROR.REQUIRED' | translate)
+                                              }
+                                            ])
+                                          ">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill"
+                            *ngIf="formGroup.get('applicationName').value == 0">
+                            <mat-label [translate]="'VM.AVS.WEB-INS.APPLICATION_NAME'"></mat-label>
+                            <input matInput [placeholder]="'VM.AVS.WEB-INS.APPLICATION_NAME' | translate"
+                                formControlName="applicationNameOther" [maxlength]="maxLength.GENERAL" />
+                            <mat-error>
+                                <app-control-error [validationSignal]="
+                                            validatorService.validateArray(formControls.applicationNameOther, [
+                                              {
+                                                valType: 'required',
+                                                message: ('VALIDATION.ERROR.REQUIRED' | translate)
+                                              }
+                                            ])
+                                          ">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-card class="card-mg-bot">
+                            <mat-card-content>
+                                <section class="example-section" formGroupName="applicationType" aria-required="true">
+                                    <b>{{'VM.AVS.WEB-INS.APP_TYPE' | translate}}</b>
+                                    <div class="form-group row">
+                                        <div class="col-lg-8">
+                                            <p *ngFor="let applicationType of applicationTypes | async">
+                                                <mat-checkbox [formControlName]="applicationType.value" [disabled]="epmFound" color="warn">{{ applicationType.value }}</mat-checkbox>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </section>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'VM.FLD.BUSSINESS_UNIT'"></mat-label>
+                            <input matInput [placeholder]="'VM.FLD.BUSSINESS_UNIT' | translate" formControlName="businessUnit"
+                                [disabled]="epmFound" [maxlength]="maxLength.GENERAL" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'VM.FLD.BUSSINESS_CHANNEL'"></mat-label>
+                            <mat-select formControlName="businessChannel">
+                                <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                                <mat-option *ngFor="let business of businessChannelList" [value]="business.id">
+                                    {{ business.value }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'AUDITORY.FLD.RESOLUTION_DATE'"></mat-label>
+                            <input matInput type="date" [placeholder]="'AUDITORY.FLD.RESOLUTION_DATE' | translate"
+                                formControlName="resolutionDate" [maxlength]="maxLength.GENERAL" required />
+                            <mat-error>
+                                <app-control-error [validationSignal]="validatorService.validateArray(formControls.resolutionDate, 
+                        [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'AUDITORY.FLD.EXPECTED_RESOLUTION_DATE'"></mat-label>
+                            <input matInput type="date" [placeholder]="'AUDITORY.FLD.EXPECTED_RESOLUTION_DATE' | translate"
+                                formControlName="expectedResolutionDate" [maxlength]="maxLength.GENERAL" required />
+                            <mat-error>
+                                <app-control-error [validationSignal]="validatorService.validateArray(formControls.expectedResolutionDate, 
+                        [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6" *ngIf="!isNewTicket">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'AUDITORY.FLD.AUDIT_CHECK_STATUS'"></mat-label>
+                            <mat-select formControlName="auditCheckStatus" required>
+                                <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                                <mat-option [value]="auditCheckStatus.id" *ngFor="let auditCheckStatus of auditCheckStatusList">
+                                    {{ auditCheckStatus.description }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                <app-control-error [validationSignal]="validatorService.validateArray(formControls.auditCheckStatus, 
+                        [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6" *ngIf="!isNewTicket">
+                        <mat-form-field class="ols-form-control" appearance="fill" *ngIf="!isNewTicket">
+                            <mat-label [translate]="'AUDITORY.FLD.SAFETY_STATUS'"></mat-label>
+                            <mat-select formControlName="safetyStatus" required>
+                                <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                                <mat-option [value]="healthStatus.id" *ngFor="let healthStatus of healthStatusList">
+                                    {{ healthStatus.description }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                <app-control-error [validationSignal]="validatorService.validateArray(formControls.safetyStatus, 
+                        [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                                </app-control-error>
+                            </mat-error>
+                            <!-- <mat-select formControlName="safetyStatus" required>
+                                healthStatusList
+                                <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                                <mat-option [value]="'on_time'">A tiempo</mat-option>
+                                <mat-option [value]="'delayed'">Demorado</mat-option>
+                            </mat-select> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'AUDITORY.FLD.ASSIGNED'"></mat-label>
+                            <mat-select formControlName="assigned" required>
+                                <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                                <mat-option [value]="responsable.id" *ngFor="let responsable of responsableList">
+                                    {{ responsable.description }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                <app-control-error [validationSignal]="validatorService.validateArray(formControls.assigned, 
+                        [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'AUDITORY.FLD.MANAGER'"></mat-label>
+                            <mat-select formControlName="manager" required>
+                                <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                                <mat-option [value]="manager.id" *ngFor="let manager of managerList">
+                                    {{ manager.description }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                <app-control-error [validationSignal]="validatorService.validateArray(formControls.manager, 
+                        [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'AUDITORY.FLD.SAFETY_CATEGORY'"></mat-label>
+                            <mat-select formControlName="safetyCategory" required>
+                                <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                                <mat-option *ngFor="let safety of safetyCategoryList" [value]="safety.id">
+                                    {{ safety.description }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                <app-control-error [validationSignal]="validatorService.validateArray(formControls.safetyCategory, 
+                        [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'AUDITORY.FLD.RISK_LEVEL'"></mat-label>
+                            <mat-select formControlName="riskLevel" required>
+                                <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                                <mat-option *ngFor="let risk of riskLevelList" [value]="risk.id">
+                                    {{ risk.description }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                <app-control-error [validationSignal]="validatorService.validateArray(formControls.riskLevel, 
+                        [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                                </app-control-error>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill">
+                            <mat-label [translate]="'AUDITORY.FLD.ACTION_PLANS_COUNT'"></mat-label>
+                            <input matInput appOnlyNumber [placeholder]="'AUDITORY.FLD.ACTION_PLANS_COUNT' | translate"
+                                formControlName="actionPlansCount" [maxlength]="maxLength.NUMBER" required />
+                        </mat-form-field>
+                        <mat-error>
+                            <app-control-error [validationSignal]="validatorService.validateArray(formControls.actionPlansCount, 
+                    [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                            </app-control-error>
+                        </mat-error>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <mat-form-field class="ols-form-control" appearance="fill" *ngIf="!isNewTicket">
+                            <mat-label [translate]="'AUDITORY.FLD.IMPLEMENTATION'"></mat-label>
+                            <mat-select formControlName="implementation" required>
+                                <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                                <mat-option *ngFor="let implementation of implementationList" [value]="implementation.id">
+                                    {{ implementation.description }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-6">
+                        <app-file-upload [label]="'AUDITORY.FLD.EVIDENCE' | translate" (onFile)="pushObjFile($event)"
+                        [control]="'evidence'" *ngIf="isNewTicket || ticket.idStatus == 104"></app-file-upload>
+                    <ng-container *ngIf="getFileByControl('evidence')">
+                        <h4 *ngIf="!isNewTicket || ticket.idStatus == 104">Archivo de evidencias</h4>
+                        <app-uploaded-file [objFile]="getFileByControl('evidence')"></app-uploaded-file>
+                    </ng-container>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <ng-container *ngIf="!isNewTicket">
+                            <app-auditory-view (viewData)="getViewData($event)"></app-auditory-view>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <app-auditory-action-plans [isNewTicket]="isNewTicket" [toUpdate]="toUpdate" [ticket]="ticket" *ngIf="isNewTicket || toUpdate || ticket">
+        </app-auditory-action-plans>
+
+        <app-action-plans [isNewTicket]="isNewTicket" [ticket]="ticket"
+            *ngIf="!isNewTicket && ticket && (userPolicies.includes('IS&C_Staff_Ejecutor')) && (ticket.idStatus == 5 || ticket.idStatus == 7 || ticket.idStatus == 8) && !toUpdate">
+        </app-action-plans>
+
+        <mat-form-field *ngIf="(!isNewTicket || ticket.idStatus == 104) && !toUpdate" class="example-full-width">
+            <textarea matInput readonly id="comments" formControlName="comments"
+                [placeholder]="'VM.AVS.COMMENTS' | translate" rows="6"></textarea>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="(ticket.idStatus == 5 || ticket.idStatus == 104 || isNewTicket) && !toUpdate"
+            class="example-full-width">
+            <textarea matInput id="additionalComments" formControlName="additionalComments"
+                [placeholder]="'VM.AVS.ADITIONAL_COMMENTS' | translate" [maxlength]="maxLength.COMMENTS"></textarea>
+        </mat-form-field>
+
+        <app-udf [formName]="FORM_NAME" (getFormGroup)="setUdfForm($event)"></app-udf>
+
+        <app-action-buttons [ticket]="ticket" [canBeClosed]="canBeClosed" [form]="formGroup"
+            *ngIf="(!isNewTicket && ticket && (userPolicies.includes('IS&C_Staff_Ejecutor'))) && !toUpdate">
+        </app-action-buttons>
+
+        <div class="form-group row" *ngIf="isNewTicket">
+            <div class="col-lg-12">
+                <button class="mr-4 ols-action-buttons" (click)="onSubmit()" mat-raised-button color="warn">
+                    {{ "VM.BTN.SEND" | translate }}
+                </button>
+                <button class="ols-action-buttons" mat-raised-button color="warn">
+                    {{ "VM.BTN.CANCEL" | translate }}
+                </button>
+            </div>
+        </div>
+    </form>
+</app-card-container>

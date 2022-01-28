@@ -1,0 +1,150 @@
+<app-base-modal [modalTitle]="'PRO.EDIT_SCOPE.TITLE' | translate">
+  <div modal-body>
+    <form class="form form-label-right" [formGroup]="formGroup">
+      <div class="form-group row">
+        <div class="col-lg-12">
+          <h4><strong>Región: </strong>{{data.updateRow.region.value}}</h4>
+          <h4><strong>País: </strong>{{data.updateRow.country.value}}</h4>
+          <h4><strong>Entidad: </strong>{{data.updateRow.entity.value}}</h4>
+          <h4><strong>Contacto: </strong>{{data.updateRow.contacto}}</h4>
+          <h4><strong>Correo: </strong>{{data.updateRow.correoContacto}}</h4>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-12">
+          <mat-form-field class="ols-form-control" appearance="fill">
+            <mat-label [translate]="'PRO.AP.H7'"></mat-label>
+            <input matInput [placeholder]="'PRO.AP.H7' | translate" formControlName="estadoSalud">
+            <mat-error>
+              <app-control-error [validationSignal]="validatorService.validateArray(formControls.estadoSalud, 
+                [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+              </app-control-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-12">
+          <mat-form-field class="ols-form-control" appearance="fill">
+            <mat-label [translate]="'PRO.AP.MODAL.START_DATE'"></mat-label>
+            <input matInput type="date" [placeholder]="'PRO.AP.MODAL.LIMIT_DATE' | translate"
+              formControlName="fechaInicio">
+            <mat-error>
+              <app-control-error [validationSignal]="validatorService.validateArray(formControls.fechaInicio, 
+                [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+              </app-control-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-12">
+          <mat-form-field class="ols-form-control" appearance="fill">
+            <mat-label [translate]="'PRO.AP.MODAL.END_DATE'"></mat-label>
+            <input matInput type="date" [placeholder]="'PRO.AP.MODAL.LIMIT_DATE' | translate"
+              formControlName="fechaCierre">
+            <mat-error>
+              <app-control-error [validationSignal]="validatorService.validateArray(formControls.fechaCierre, 
+                [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+              </app-control-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-12">
+          <mat-form-field class="ols-form-control" appearance="fill">
+            <mat-label [translate]="'PRO.AP.COMMENTS'"></mat-label>
+            <input matInput [placeholder]="'PRO.AP.COMMENTS' | translate" formControlName="comentarios">
+            <mat-error>
+              <app-control-error [validationSignal]="validatorService.validateArray(formControls.comentarios, 
+                [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+              </app-control-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-12">
+          <mat-form-field class="ols-form-control" appearance="fill">
+            <mat-label [translate]="'PRO.AP.MODAL.AREA'"></mat-label>
+            <input matInput [placeholder]="'PRO.AP.MODAL.DELAY_REASON' | translate" formControlName="razonDemora">
+            <mat-error>
+              <app-control-error [validationSignal]="validatorService.validateArray(formControls.razonDemora, 
+                [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+              </app-control-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-12">
+          <mat-form-field class="ols-form-control" appearance="fill">
+            <mat-label [translate]="'PRO.AP.PROJECT_STATUS'"></mat-label>
+            <mat-select [compareWith]="compareObjects" formControlName="estadoProyecto">
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let estadoProyecto of estadoProyectoList" [value]="estadoProyecto">
+                {{estadoProyecto.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error>
+              <app-control-error [validationSignal]="validatorService.validateArray(formControls.estadoProyecto, 
+                [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+              </app-control-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-12">
+          <mat-form-field class="ols-form-control" appearance="fill">
+            <mat-label [translate]="'PRO.AP.MODAL.DONE_ASSETS'"></mat-label>
+            <input matInput [placeholder]="'PRO.AP.MODAL.DONE_ASSETS' | translate" formControlName="activosRealizados">
+            <mat-error>
+              <app-control-error [validationSignal]="validatorService.validateArray(formControls.activosRealizados, 
+                [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+              </app-control-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-12">
+          <mat-form-field class="ols-form-control" appearance="fill">
+            <mat-label [translate]="'PRO.AP.MODAL.PENDING_ASSETS'"></mat-label>
+            <input matInput [placeholder]="'PRO.AP.MODAL.PENDING_ASSETS' | translate"
+              formControlName="activosPendientes">
+            <mat-error>
+              <app-control-error [validationSignal]="validatorService.validateArray(formControls.activosPendientes, 
+                [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+              </app-control-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-12">
+          <mat-form-field class="ols-form-control" appearance="fill">
+            <mat-label [translate]="'PRO.AP.MODAL.PROJECT_PROGRESS'"></mat-label>
+            <input matInput [placeholder]="'PRO.AP.MODAL.PROJECT_PROGRESS' | translate"
+              formControlName="avanceProyecto">
+            <mat-error>
+              <app-control-error [validationSignal]="validatorService.validateArray(formControls.avanceProyecto, 
+                [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+              </app-control-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div modal-footer>
+    <button class="mr-6" mat-raised-button color="warn" (click)="this.closeModal()">
+      {{ 'BUTTONS.CANCEL' | translate}}
+    </button>
+    <button mat-raised-button color="warn" (click)="save()">
+      {{ 'BUTTONS.SAVE' | translate}}
+    </button>
+
+  </div>
+</app-base-modal>

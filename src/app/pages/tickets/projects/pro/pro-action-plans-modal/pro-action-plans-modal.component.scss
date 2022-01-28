@@ -1,0 +1,17 @@
+.text-center {
+    text-align: center;
+}
+
+.col-lg-offset-6 {
+    margin-right: 50%;
+}
+
+@media (max-width: 768px) { 
+    .col-lg-offset-6 {
+        margin-right: 0;
+    } 
+}
+
+::ng-deep .modal-footer {
+    justify-content: unset !important;
+}

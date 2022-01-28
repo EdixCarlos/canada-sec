@@ -1,0 +1,30 @@
+.green-row {
+    background-color: #d7ffe2;
+}
+
+.yellow-row {
+    background-color: #fffbda;
+}
+
+.red-row {
+    background-color: #ffc6c6;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.row-detail {
+  cursor: pointer;
+}
+
+b:hover {
+  color: rgb(236, 9, 30)
+}

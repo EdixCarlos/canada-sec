@@ -1,0 +1,105 @@
+<app-card-container [titleCard]="'MENU.TICKETS' | translate">
+  <div class="form-group row">
+    <div class="col-lg-6">
+      <mat-form-field class="ols-form-control" appearance="fill">
+        <mat-label [translate]="'MENU.TICKETS.FLD.SEARCH'"></mat-label>
+        <input matInput placeholder="Ingrese término a buscar" id="filterInput" #filterInput>
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4">
+      <button *ngIf="type != 'exec'" (click)="openModal()" mat-raised-button color="warn">
+        <mat-icon matPrefix>assignment</mat-icon>
+        {{'BUTTONS.NEW.TICKET' | translate}}
+      </button>
+    </div>
+    <div class="col-lg-2">
+      <mat-form-field class="ols-form-control" appearance="fill">
+        <mat-label [translate]="'Exportar'"></mat-label>
+        <mat-select (selectionChange)="export()">
+            <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+            <mat-option [value]="'xlsx'" >.XLSX</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- <button mat-raised-button color="primary" (click)="export()">
+        Exportar
+        <mat-icon>trending_down</mat-icon>
+      </button> -->
+    </div>
+  </div>
+
+  <!-- Table -->
+  <table #table mat-table multiTemplateDataRows [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+
+    <ng-container matColumnDef="numero">
+      <th mat-header-cell *matHeaderCellDef>N° Ticket</th>
+      <td mat-cell *matCellDef="let row" (click)="goToTicket(row)">
+        <b class="row-detail">{{row.id}}</b>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="tipo">
+      <th mat-header-cell *matHeaderCellDef>Tipo de Ticket</th>
+      <td mat-cell *matCellDef="let row">{{ticketType[row.idTicketType].description}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let row">{{ticketStatus[row.idStatus].description | translate}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="tiempos">
+      <th mat-header-cell *matHeaderCellDef>Tiempos Creación</th>
+      <td mat-cell *matCellDef="let row">{{row.timeCreation}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="fechaCreacion">
+      <th mat-header-cell *matHeaderCellDef>Fecha Creación</th>
+      <td mat-cell *matCellDef="let row">{{row.requestDate | date : 'short'}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="solicitante">
+      <th mat-header-cell *matHeaderCellDef>Solicitante</th>
+      <td mat-cell *matCellDef="let row">{{row.requesterName}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let row; let i = dataIndex">
+        <button (click)="getTicketDetail(i, row)" mat-icon-button color="primary">
+          <mat-icon>search</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+        <div class="example-element-detail" [@detailExpand]="row === expandedElement ? 'expanded' : 'collapsed'">
+          <div class="example-element-description">
+            <div class="" style="margin: 15px;">
+              <ol>
+                <li *ngFor="let rowH of row.history; let i = index">
+                  <b>{{rowH.updatedAt | date : 'short'}}</b>
+                  <p>{{rowH.desStatus}}: {{rowH.userNameModified}}</p>
+                  <span>{{rowH.data.comentarios_usuario ? 'Comentarios de usuario: ' + rowH.data.comentarios_usuario :
+                    ''}}</span><br>
+                  <span>{{rowH.data.comentarios_ejecutor ? 'Comentarios de ejecutor: ' + rowH.data.comentarios_ejecutor
+                    : ''}}</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
+      [ngClass]="row.idStatus === 4 ? 'green-row' : row.idStatus === 5 ? 'yellow-row' : 'red-row'"
+      [class.example-expanded-row]="expandedElement === row">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+  </table>
+  <mat-paginator class="w-100" [length]="resultsLength " [pageSize]="10" [pageSizeOptions]="[5, 10, 20]">
+  </mat-paginator>
+</app-card-container>

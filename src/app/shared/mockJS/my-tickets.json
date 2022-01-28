@@ -1,0 +1,89 @@
+[
+    {
+        "id": 1,
+        "numero": 326552,
+        "tipo": "SCAN ON DEMAND",
+        "estado": "ASIGNADO",
+        "tiempos": "0h 30min",
+        "fechaCreacion": "21/04/2020",
+        "solicitante": "Rafael Herrera M."
+    },
+    {
+        "id": 2,
+        "numero": 352542,
+        "tipo": "SING OFF REQUEST",
+        "estado": "ASIGNADO",
+        "tiempos": "0h 45min",
+        "fechaCreacion": "21/04/2020",
+        "solicitante": "Rafael Herrera M."
+    },
+    {
+        "id": 3,
+        "numero": 359874,
+        "tipo": "FALSE POSITIVE",
+        "estado": "EN PROGRESO",
+        "tiempos": "1h 10min",
+        "fechaCreacion": "21/04/2020",
+        "solicitante": "Rafael Herrera M.",
+        "historial": [
+            {
+                "fecha": "28/02/2020 09:00 a.m.",
+                "detalle": "- Creación de Solicitud, Usuario Juan Velarde"
+            },
+            {
+                "fecha": "28/02/2020 09:25 a.m.",
+                "detalle": "- Aprobado por Domingo Alegría\n- Solicitud aprobada, favor de ejecutar con alta prioridad"
+            },
+            {
+                "fecha": "28/02/2020 10:30 a.m.",
+                "detalle": "- Asignada a Operador 1 de Scotia, Ejecutada con prioridad"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "numero": 369857,
+        "tipo": "REMEDIATION DATE",
+        "estado": "CERRADO",
+        "tiempos": "1h 30min",
+        "fechaCreacion": "21/04/2020",
+        "solicitante": "Rafael Herrera M.",
+        "historial": [
+            {
+                "fecha": "28/02/2020 09:00 a.m.",
+                "detalle": "- Creación de Solicitud, Usuario Juan Velarde"
+            },
+            {
+                "fecha": "28/02/2020 09:25 a.m.",
+                "detalle": "- Aprobado por Domingo Alegría\n- Solicitud aprobada, favor de ejecutar con alta prioridad"
+            },
+            {
+                "fecha": "28/02/2020 10:30 a.m.",
+                "detalle": "- Asignada a Operador 1 de Scotia, Ejecutada con prioridad"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "numero": 352125,
+        "tipo": "OTHER REQUEST",
+        "estado": "ASIGNADO",
+        "tiempos": "0h 17min",
+        "fechaCreacion": "21/04/2020",
+        "solicitante": "Rafael Herrera M.",
+        "historial": [
+            {
+                "fecha": "28/02/2020 09:00 a.m.",
+                "detalle": "- Creación de Solicitud, Usuario Juan Velarde"
+            },
+            {
+                "fecha": "28/02/2020 09:25 a.m.",
+                "detalle": "- Aprobado por Domingo Alegría\n- Solicitud aprobada, favor de ejecutar con alta prioridad"
+            },
+            {
+                "fecha": "28/02/2020 10:30 a.m.",
+                "detalle": "- Asignada a Operador 1 de Scotia, Ejecutada con prioridad"
+            }
+        ]
+    }
+]

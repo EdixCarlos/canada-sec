@@ -1,0 +1,21 @@
+<!-- <div *transloco="let t; read: 'home'" class="home-container"> -->
+<div class="home-container">
+    <div *ngIf="(currentUser$ | async).policies?.length < 1">
+        <img class="no-content-img" mat-card-image src="../../../assets/img/empty.png" alt="Empty">
+        <div class="mat-h2">
+            {{ 'PUBLIC.EMPTY_TITLE' | translate }}
+        </div>
+        <div class="mat-h3">
+            {{ 'PUBLIC.EMPTY_MESSAGE' | translate }}
+        </div>
+        <button (click)="retryLogin()" mat-raised-button color="warn">
+            {{'PUBLIC.RETRY_LOGIN' | translate}}
+        </button>
+    </div>
+    <div *ngIf="(currentUser$ | async).policies?.length > 0">
+        <img class="no-content-img" mat-card-image src="../../../assets/img/scotiabank-home-3.svg" alt="Empty">
+        <div class="mat-h2">
+            {{ (currentUser$ | async).name }}
+        </div>
+    </div>
+</div>

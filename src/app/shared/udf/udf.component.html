@@ -1,0 +1,76 @@
+<form class="form form-label-right" [formGroup]="udfFormGroup">
+    <div class="form-group row">
+        <div class="col-lg-4">
+            <ng-container *ngFor="let field of fields">
+                <mat-form-field
+                    *ngIf="(field.controlType === 'text' || field.controlType === 'password' ||field.controlType === 'email' ||field.controlType === 'tel')"
+                    class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="field.label"></mat-label>
+                    <input type="{{field.controlType}}" matInput [placeholder]="field.label | translate"
+                        formControlName="{{field.formControlName}}">
+                    <ng-container *ngIf="formSent && formControls[field.formControlName].errors">
+                        <ng-container *ngFor="let val of field.validators">
+                            <mat-error *ngIf="formControls[field.formControlName].errors[val.type.toLowerCase()]">
+                                {{val.message}}
+                            </mat-error>
+                        </ng-container>
+                    </ng-container>
+                </mat-form-field>
+                <mat-form-field *ngIf="field.controlType === 'select'" class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="field.label"></mat-label>
+                    <mat-select formControlName="{{field.formControlName}}">
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let option of field.options" [value]="option.value">
+                            {{option.label}}
+                        </mat-option>
+                    </mat-select>
+                    <ng-container *ngIf="formSent && formControls[field.formControlName].errors">
+                        <ng-container *ngFor="let val of field.validators">
+                            <mat-error *ngIf="formControls[field.formControlName].errors[val.type.toLowerCase()]">
+                                {{val.message}}
+                            </mat-error>
+                        </ng-container>
+                    </ng-container>
+                </mat-form-field>
+                <mat-form-field *ngIf="field.controlType === 'textarea'" class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="field.label"></mat-label>
+                    <textarea formControlName="{{field.formControlName}}" matInput
+                        placeholder="{{field.label | translate}}"></textarea>
+                    <ng-container *ngIf="formSent && formControls[field.formControlName].errors">
+                        <ng-container *ngFor="let val of field.validators">
+                            <mat-error *ngIf="formControls[field.formControlName].errors[val.type.toLowerCase()]">
+                                {{val.message}}
+                            </mat-error>
+                        </ng-container>
+                    </ng-container>
+                </mat-form-field>
+                <div *ngIf="field.controlType === 'check'">
+                    <mat-checkbox color="warn" formControlName="{{field.formControlName}}">
+                        {{field.label | translate}}</mat-checkbox>
+                    <ng-container *ngIf="formSent && formControls[field.formControlName].errors">
+                        <ng-container *ngFor="let val of field.validators">
+                            <mat-error *ngIf="formControls[field.formControlName].errors[val.type.toLowerCase()]">
+                                {{val.message}}
+                            </mat-error>
+                        </ng-container>
+                    </ng-container>
+                    <br><br>
+                </div>
+                <div *ngIf="field.controlType === 'radio'">
+                    <mat-radio-group color="warn" formControlName="{{field.formControlName}}">
+                        <mat-radio-button *ngFor="let option of field.options" [value]="option.value">
+                            {{option.label}}</mat-radio-button>
+                        <br><br>
+                    </mat-radio-group>
+                    <ng-container *ngIf="formSent && formControls[field.formControlName].errors">
+                        <ng-container *ngFor="let val of field.validators">
+                            <mat-error *ngIf="formControls[field.formControlName].errors[val.type.toLowerCase()]">
+                                {{val.message}}
+                            </mat-error>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</form>

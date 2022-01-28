@@ -1,0 +1,8 @@
+<section>
+    <ng-container *ngIf="validate else country">
+        <canvas #doughnutCanvas style="height:25vh; width:10vw;"></canvas>
+    </ng-container>
+    <ng-template #country>
+        <canvas #doughnutCanvas style="height:18vh; width:12vw;"></canvas>
+    </ng-template>
+</section>

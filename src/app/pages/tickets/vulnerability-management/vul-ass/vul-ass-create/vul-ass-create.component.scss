@@ -1,0 +1,13 @@
+.card-mg-bot {
+    margin-bottom: 15px;
+}
+
+.col-lg-offset-6 {
+    margin-right: 50%;
+}
+
+@media (max-width: 768px) { 
+    .col-lg-offset-6 {
+        margin-right: 0;
+    } 
+}

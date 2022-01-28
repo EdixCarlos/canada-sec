@@ -1,0 +1,103 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+      <div class="card-title">
+        <h3 class="card-label">{{ "MENU.MAINTAINERS.UDF" | translate }}</h3>
+      </div>
+    </div>
+    <div class="card-body">
+      <form class="form form-label-right" [formGroup]="formGroup">
+        <div class="form-group row">
+          <div class="col-lg-4">
+            <mat-form-field class="ols-form-control" appearance="fill">
+              <mat-label [translate]="'MENU.MAINTAINERS.SERVICE'"></mat-label>
+              <mat-select (selectionChange)="onChangeService($event)" formControlName="serviceName">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let service of services" [value]="service">
+                  {{service.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-4">
+            <mat-form-field class="ols-form-control" appearance="fill">
+              <mat-label [translate]="'MENU.MAINTAINERS.SUB_SERVICE'"></mat-label>
+              <mat-select (selectionChange)="onChangeSubService($event)" formControlName="fieldName">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let subService of subServices" [value]="subService">
+                  {{subService.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div *ngIf="requestTypes.length > 0" class="col-lg-4">
+            <mat-form-field class="ols-form-control" appearance="fill">
+              <mat-label [translate]="'MENU.MAINTAINERS.SUB_SERVICE_TYPE'"></mat-label>
+              <mat-select (selectionChange)="onChangeRequestType($event)" formControlName="fieldName">
+                <mat-option *ngFor="let reqType of requestTypes" [value]="reqType">
+                  {{reqType.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+      <div class="row ml-0 mb-5">
+        <div class="float-left">
+          <button (click)="create()" *ngIf="this.dataSource" mat-raised-button color="warn">
+            {{'BUTTONS.ADD' | translate}}
+          </button>
+        </div>
+      </div>
+  
+      <!-- Table -->
+      <table *ngIf="this.dataSource" #table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-50">
+  
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> # </th>
+          <td mat-cell *matCellDef="let i = index"> {{i + 1}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Nombre del Campo </th>
+          <td mat-cell *matCellDef="let element"> {{element.label | translate}} </td>
+        </ng-container>     
+        
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef> Tipo de Campo </th>
+          <td mat-cell *matCellDef="let element"> {{element.controlType}} </td>
+        </ng-container>   
+      
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let element"> 
+            <button 
+              (click)="edit(element.id)"
+              mat-icon-button color="primary">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button 
+              (click)="delete(element.id)"
+              mat-icon-button color="primary" >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator *ngIf="this.dataSource"
+        class="w-50" 
+        [length]="5" 
+        [pageSize]="3"
+        [pageSizeOptions]="[3, 5, 10]">
+      </mat-paginator>
+      <!-- <div class="mt-5 w-50">
+        <div class="float-right">
+          <button mat-raised-button color="warn">
+            {{'BUTTONS.SAVE' | translate}}
+          </button>
+        </div>      
+      </div> -->
+    </div>
+  </div>

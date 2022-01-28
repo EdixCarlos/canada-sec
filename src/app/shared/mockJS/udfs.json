@@ -1,0 +1,83 @@
+[
+    {
+        "label": "VM.FLD.REQUESTED_BY",
+        "formControlName": "requestedBy",
+        "controlType": "text",
+        "validators": [
+            {
+                "type": "required",
+                "message": "Este campo es requerido"
+            }
+        ]
+    },
+    {
+        "label": "VM.FLD.REQUESTED_BY",
+        "formControlName": "password",
+        "controlType": "password",
+        "validators": [
+            {
+                "type": "required",
+                "message": "Este campo es requerido"
+            }
+        ]
+    },
+    {
+        "label": "VM.FLD.REQUEST_TYPE",
+        "formControlName": "selectControl",
+        "controlType": "select",
+        "options": [
+            {
+                "value": "1",
+                "label": "Primera opcion"
+            },
+            {
+                "value": "2",
+                "label": "Segunda opcion"
+            },
+            {
+                "value": "1",
+                "label": "Tercera opcion"
+            }
+        ]
+    },
+    {
+        "label": "VM.FLD.ENTITY",
+        "formControlName": "checkControl",
+        "controlType": "check"
+    },
+    {
+        "label": "VM.FLD.REQUEST_TYPE",
+        "formControlName": "radioControl",
+        "controlType": "radio",
+        "options": [
+            {
+                "value": "1",
+                "label": "Primera opcion"
+            },
+            {
+                "value": "2",
+                "label": "Segunda opcion"
+            },
+            {
+                "value": "1",
+                "label": "Tercera opcion"
+            }
+        ]
+    },
+    {
+        "label": "VM.FLD.EMAIL",
+        "formControlName": "textarea",
+        "controlType": "textarea",
+        "validators": [
+            {
+                "type": "maxLength",
+                "param": 10,
+                "message": "Màximo 10 caracteres"
+            },
+            {
+                "type": "required",
+                "message": "Este campo es requerido"
+            }
+        ]
+    }
+]

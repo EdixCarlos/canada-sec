@@ -1,0 +1,43 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <ng-container >        
+        <ng-container *ngIf="data.parent == 0">{{'MODALS.TITLE_UPDATE' | translate}}</ng-container>        
+        <ng-container *ngIf="data.parent > 0">{{'MODALS.TITLE_CREATE' | translate}}</ng-container>
+          {{ 'MODALS.MNT.PROPERTY' | translate}}:
+        <ng-container *ngIf="data.parent == 0"> {{label}}</ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <ng-container >
+      <form class="form form-label-right" [formGroup]="formGroup">                         
+        <div class="form-group row">            
+          <div class="col-lg-8">
+              <mat-form-field class="ols-form-control" appearance="fill">
+                  <mat-label [translate]="'MODALS.FIELD.VALUE'"></mat-label>
+                  <input matInput [placeholder]="'MODALS.FIELD.VALUE' | translate" formControlName="add">
+                  <mat-error>
+                    <app-control-error [validationSignal]="validatorService.validateArray(formControls.add, 
+                    [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)},
+                    {valType:'pattern',message:('VALIDATION.ERROR.PATTERN' | translate)}])">
+                    </app-control-error>
+                  </mat-error>
+                </mat-form-field>
+          </div>            
+        </div>                
+      </form>
+    </ng-container>
+  </div>
+
+  <div class="modal-footer">
+    <button ngbAutofocus type="button" class="btn btn-light btn-elevate mr-2" (click)="closeModal()">
+      {{ 'BUTTONS.CANCEL' | translate}}
+    </button>
+    <ng-container >
+      <button type="submit" class="btn btn-primary btn-elevate" (click)="optioner()">
+        {{ 'BUTTONS.SAVE' | translate}}
+      </button>
+    </ng-container>
+  </div>
+</div>

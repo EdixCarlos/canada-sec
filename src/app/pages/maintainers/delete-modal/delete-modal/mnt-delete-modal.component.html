@@ -1,0 +1,31 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <ng-container>
+      <div class="modal-title h4">{{'MODALS.TITLE_DELETE' | translate}}</div>    
+    </ng-container>        
+  </div>
+
+  <div class="modal-body">            
+    <div class="overlay overlay-block cursor-default modal-body">      
+      <ng-container *ngIf="label">
+        <div class="form-group row">                      
+          <span>{{label}}</span>           
+        </div> 
+        <span>{{'MODALS.MSG_DELETE' | translate}}</span>
+      </ng-container>
+    </div>
+  </div> 
+
+  <div class="modal-footer">
+    <div>
+      <button type="button" class="btn btn-light btn-elevate mr-1" (click)="closeModal()">
+        Cancel
+      </button>&nbsp;
+      <ng-container *ngIf="label">
+        <button type="button" class="btn btn-primary btn-elevate" (click)="delete()">
+          Delete
+        </button>
+      </ng-container>      
+    </div>
+  </div>
+</div>  

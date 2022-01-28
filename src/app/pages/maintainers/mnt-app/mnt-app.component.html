@@ -1,0 +1,138 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">{{ "MENU.MAINTAINERS.APP" | translate }}</h3>
+    </div>
+  </div>
+  <div class="card-body">
+    <form class="form form-label-right" [formGroup]="formGroup">
+      <div class="form-group row">
+        <div class="col-lg-4">
+          <mat-form-field class="ols-form-control" appearance="fill">
+            <mat-label [translate]="'MENU.MAINTAINERS.FLD_TYPE'"></mat-label>
+            <mat-select
+              formControlName="typedService"
+              [(value)]="item.idType"
+              (selectionChange)="fieldFilter()"
+            >
+              <mat-option
+                *ngFor="let element of typedSource"
+                [value]="element.id"
+              >
+                {{ element.fieldDescription }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-4">
+          <mat-form-field class="ols-form-control" appearance="fill">
+            <mat-label [translate]="'MENU.MAINTAINERS.FLD_FIELD'"></mat-label>
+            <mat-select
+              formControlName="fieldName"
+              [(value)]="item.idField"
+              (selectionChange)="servicesFilter()"
+            >
+              <mat-option
+                *ngFor="let element of fieldSource"
+                [value]="element.id"
+              >
+                {{ element.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+    <div class="row ml-0 mb-5">
+      <div class="float-left">
+        <button (click)="maker(0, null)" mat-raised-button color="warn">
+          {{ "BUTTONS.ADD" | translate }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <table
+      #table
+      mat-table
+      [dataSource]="dataSource"
+      class="mat-elevation-z8 w-50"
+    >
+      <ng-container matColumnDef="epm-code">
+        <th mat-header-cell *matHeaderCellDef>EPM Code</th>
+        <td mat-cell *matCellDef="let element">{{ element.epmCode }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="valor">
+        <th mat-header-cell *matHeaderCellDef>Valor</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+      <!--/*
+      <ng-container matColumnDef="payment">
+        <th mat-header-cell *matHeaderCellDef> payment </th>
+        <td mat-cell *matCellDef="let element"> {{element.paymentSystem}} </td>
+      </ng-container>      
+
+      <ng-container matColumnDef="cia">
+        <th mat-header-cell *matHeaderCellDef> cia </th>
+        <td mat-cell *matCellDef="let element"> {{element.cia}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="mobile">
+        <th mat-header-cell *matHeaderCellDef> mobile </th>
+        <td mat-cell *matCellDef="let element"> {{element.mobile}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="other">
+        <th mat-header-cell *matHeaderCellDef> other </th>
+        <td mat-cell *matCellDef="let element"> {{element.other}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="internetBanking">
+        <th mat-header-cell *matHeaderCellDef> internetBanking </th>
+        <td mat-cell *matCellDef="let element"> {{element.internetBanking}} </td>
+      </ng-container>
+      <ng-container matColumnDef="abm">
+        <th mat-header-cell *matHeaderCellDef> abm </th>
+        <td mat-cell *matCellDef="let element"> {{element.abm}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="contactCenter">
+        <th mat-header-cell *matHeaderCellDef> contactCenter </th>
+        <td mat-cell *matCellDef="let element"> {{element.contactCenter}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="branches">
+        <th mat-header-cell *matHeaderCellDef> branches </th>
+        <td mat-cell *matCellDef="let element"> {{element.branches}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="others">
+        <th mat-header-cell *matHeaderCellDef> others </th>
+        <td mat-cell *matCellDef="let element"> {{element.others}} </td>
+      </ng-container>
+*/-->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <button (click)="maker(1, element)" mat-icon-button color="primary">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button (click)="delete(element)" mat-icon-button color="primary">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator
+      class="w-50"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      [showFirstLastButtons]="buttonfl"
+    >
+    </mat-paginator>
+  </div>
+</div>

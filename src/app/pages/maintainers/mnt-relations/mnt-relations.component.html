@@ -1,0 +1,61 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+      <div class="card-title">
+        <h3 class="card-label">{{ "MENU.MAINTAINERS.RELATIONS" | translate }}</h3>
+      </div>
+    </div>
+    <div class="card-body">
+      <form class="form form-label-right" [formGroup]="formGroup">
+        <div class="form-group row">
+          <div class="col-lg-6">
+            <mat-form-field class="ols-form-control" appearance="fill">
+              <mat-label [translate]="'MENU.MAINTAINERS.REGION'"></mat-label>
+              <mat-select formControlName="region" [(value)]="item._region" (selectionChange)="countryFilter()">              
+                <mat-option [value]="-99">--</mat-option>
+                <mat-option *ngFor="let element of regionSource" [value]="element.id">
+                  {{element.value}}
+                </mat-option>
+                <mat-option [value]="-1" (click)="create(2,1,0,'REGION')" style="font-weight: 700;">Nuevo</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <mat-form-field class="ols-form-control" appearance="fill">
+              <mat-label [translate]="'MENU.MAINTAINERS.COUNTRY'"></mat-label>
+              <mat-select formControlName="country" [(value)]="item._country" (selectionChange)="entityFilter()">              
+                <mat-option [value]="-99">--</mat-option>
+                <mat-option *ngFor="let element of countrySource" [value]="element.id">
+                  {{element.value}}
+                </mat-option>
+                <mat-option [value]="-3" (click)="create(3,2,item._region,'PAIS')" style="font-weight: 700;">Nuevo</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <mat-form-field class="ols-form-control" appearance="fill">
+              <mat-label [translate]="'MENU.MAINTAINERS.ENTITY'"></mat-label>
+              <mat-select formControlName="entity" [(value)]="item._entity" (selectionChange)="bussinessFilter()">              
+                <mat-option [value]="-99">--</mat-option>
+                <mat-option *ngFor="let element of entitySource" [value]="element.id">
+                  {{element.value}}
+                </mat-option>
+              <mat-option [value]="-4" (click)="create(4,3,item._country,'ENTIDAD')" style="font-weight: 700;">Nuevo</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <mat-form-field class="ols-form-control" appearance="fill">
+              <mat-label [translate]="'MENU.MAINTAINERS.BS_UNIT'"></mat-label>
+              <mat-select formControlName="bussiness_unit" [(value)]="item._bussiness" (selectionChange)="bussinessClick()">              
+                <mat-option [value]="-99">--</mat-option>
+                <mat-option *ngFor="let element of bussinessSource" [value]="element.id">
+                  {{element.value}}
+                </mat-option>
+                <mat-option [value]="-5" (click)="create(5,4,item._entity,'UNIDAD DE NEGOCIO')" style="font-weight: 700;">Nuevo</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

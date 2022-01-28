@@ -1,0 +1,58 @@
+<section>
+    <ng-container *ngIf="spsUser">
+        <div class="row">
+            <!--Doughnut General-->
+            <div *ngIf="GeneralReport && GeneralReport.length > 0" class="col-sm-12 col-lg-4 col-xl-3">
+                <div class="card card-custom gutter-b dash">
+                    <ul class="ul-dashboard">
+                        <li *ngFor="let report of GeneralReport"> {{report.value}}
+                            <app-doughnut-ie11 [content]="report.detail" [validate]="true"></app-doughnut-ie11>
+                            <hr color="red">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--Doughnut Countries-->
+            <div *ngIf="showCountryColumn" class="col-sm-12 col-lg-8 col-xl-6">
+                <div class="card card-custom gutter-b dash">
+                    <!-- card card-custom gutter-b dash -->
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-6 col-xl-4" *ngFor="let title of CountryReport">
+                            <div class="" *ngFor="let report of title.services">
+                                <div *ngIf="report.detail && report.detail.length >0">{{ report.detail && report.detail.length > 0 ? title.country : '' }}</div>
+                                <app-doughnut-ie11 *ngIf="report.detail && report.detail.length >0" [content]="report.detail" [validate]="false"></app-doughnut-ie11>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- <ul class="ul-container">
+                        <li class="li-container" *ngFor="let title of CountryReport">
+                            <ul class="ul-dashboard">
+                                <li *ngFor="let report of title.details">
+                                    {{ title.counts }}
+                                    <app-doughnut [content]="report.items" [validate]="false"></app-doughnut>
+                                    <hr color="red">
+                                </li>
+                            </ul>
+                        </li>
+                    </ul> -->
+                </div>
+            </div>
+            <!--Bars-->
+            <div *ngIf="TrendReport && TrendReport.length > 0" class="col-sm-12 col-lg-12 col-xl-3">
+                <div class="card card-custom gutter-b dash">
+                    <ul class="ul-dashboard">
+                        <li *ngFor="let report of TrendReport">
+                            <h4>{{report.value | chardelete: report.value}}</h4>
+                            <app-bars-ie11 [content]="report.detail" [legend]="report.value"></app-bars-ie11>
+                            <hr color="red">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</section>

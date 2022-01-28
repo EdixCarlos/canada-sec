@@ -1,0 +1,533 @@
+<app-card-container [titleCard]="'PRO.TITLE' | translate">
+    <form class="form form-label-right" [formGroup]="formGroup">
+        <div class="form-group row" *ngIf="!toUpdate">
+            <div class="col-lg-4">
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'PRO.REGISTERED_BY'"></mat-label>
+                    <input matInput [placeholder]="'PRO.REGISTERED_BY' | translate" [minlength]="minLength.GENERAL"
+                        [maxlength]="maxLength.GENERAL" formControlName="registeredBy" readonly required />
+                    <mat-error>
+                        <app-control-error [validationSignal]="
+                                        validatorService.validateArray(formControls.registeredBy, [
+                                          {
+                                            valType: 'required',
+                                            message: ('VALIDATION.ERROR.REQUIRED' | translate)
+                                          }
+                                        ])
+                                      ">
+                        </app-control-error>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'VM.FLD.REQUESTED_BY'"></mat-label>
+                    <mat-select [compareWith]="compareObjects" formControlName="requestedBy" required>
+                        <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                        <mat-option *ngFor="let requestedBy of requestedByList" [value]="requestedBy">
+                            {{ requestedBy.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'VM.FLD.EMAIL'"></mat-label>
+                    <input matInput type="email" [placeholder]="'VM.FLD.EMAIL' | translate"
+                        [minlength]="minLength.EMAIL" [maxlength]="maxLength.EMAIL" formControlName="email" required />
+                    <mat-error>
+                        <app-control-error [validationSignal]="
+                                    validatorService.validateArray(formControls.email, [
+                                      {
+                                        valType: 'required',
+                                        message: ('VALIDATION.ERROR.REQUIRED' | translate)
+                                      },
+                                      {
+                                        valType: 'email',
+                                        message: ('VALIDATION.ERROR.EMAIL' | translate)
+                                      }
+                                    ])
+                                  ">
+                        </app-control-error>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'VM.FLD.SCOTIA_ID'"></mat-label>
+                    <input matInput [placeholder]="'VM.FLD.SCOTIA_ID' | translate" [minlength]="minLength.GENERAL"
+                        [maxlength]="maxLength.GENERAL" formControlName="id" required />
+                    <mat-error>
+                        <app-control-error [validationSignal]="
+                                    validatorService.validateArray(formControls.id, [
+                                      {
+                                        valType: 'required',
+                                        message: ('VALIDATION.ERROR.REQUIRED' | translate)
+                                      }
+                                    ])
+                                  ">
+                        </app-control-error>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'VM.FLD.REQUEST_AREA'"></mat-label>
+                    <input matInput [placeholder]="'VM.FLD.REQUEST_AREA' | translate" formControlName="requestArea"
+                        readonly />
+                    <mat-error>
+                        <app-control-error [validationSignal]="
+                                    validatorService.validateArray(formControls.requestArea, [
+                                      {
+                                        valType: 'required',
+                                        message: ('VALIDATION.ERROR.REQUIRED' | translate)
+                                      }
+                                    ])
+                                  ">
+                        </app-control-error>
+                    </mat-error>
+                </mat-form-field>
+                <div class="mat-form-field-wrapper" *ngIf="isNewTicket || ticket.idStatus == 104">
+                    <button (click)="openRegionModal()" mat-raised-button color="warn">
+                        <mat-icon matPrefix>language</mat-icon>
+                        {{ "VM.BTN.REGION" | translate }}
+                    </button>
+                </div>
+                <mat-form-field style="display: none" class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'VM.FLD.SELECTED_REGIONS'"></mat-label>
+                    <input matInput [placeholder]="'VM.FLD.SELECTED_REGIONS' | translate"
+                        formControlName="selectedRegions" readonly />
+                </mat-form-field>
+                <mat-form-field style="display: none" class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'VM.FLD.SELECTED_COUNTRIES'"></mat-label>
+                    <input matInput [placeholder]="'VM.FLD.SELECTED_COUNTRIES' | translate"
+                        formControlName="selectedCountries" readonly />
+                </mat-form-field>
+                <mat-form-field style="display: none" class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'VM.FLD.ENTITY'"></mat-label>
+                    <input matInput [placeholder]="'VM.FLD.ENTITY' | translate" formControlName="entity" readonly />
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'VM.FLD.SELECTED_REGIONS'"></mat-label>
+                    <input matInput [placeholder]="'VM.FLD.SELECTED_REGIONS' | translate" [value]="regionDesc"
+                        readonly />
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'VM.FLD.SELECTED_COUNTRIES'"></mat-label>
+                    <input matInput [placeholder]="'VM.FLD.SELECTED_COUNTRIES' | translate" [value]="countriesList"
+                        readonly />
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'VM.FLD.ENTITY'"></mat-label>
+                    <input matInput [placeholder]="'VM.FLD.ENTITY' | translate" [value]="entitiesList" readonly />
+                </mat-form-field>
+                <!-- <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'VM.FLD.LOCAL_CISO'"></mat-label>
+                    <input matInput [placeholder]="'VM.FLD.LOCAL_CISO' | translate" formControlName="localCiso"
+                        readonly />
+                    <mat-error>
+                        <app-control-error [validationSignal]="
+                        validatorService.validateArray(formControls.localCiso, [
+                            {
+                            valType: 'required',
+                            message: ('VALIDATION.ERROR.REQUIRED' | translate)
+                            }
+                        ])
+                        ">
+                        </app-control-error>
+                    </mat-error>
+                </mat-form-field> -->
+
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'PRO.SPONSOR'"></mat-label>
+                    <mat-select [compareWith]="compareObjects" formControlName="sponsor" required>
+                        <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                        <mat-option *ngFor="let sponsor of sponsorList" [value]="sponsor">
+                            {{ sponsor.description }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'PRO.PROJECT_NAME'"></mat-label>
+                    <input matInput [placeholder]="'PRO.PROJECT_NAME' | translate" (change)="updateProjectName($event)"
+                        formControlName="projectName" />
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'PRO.OBJECTIVE'"></mat-label>
+                    <input matInput [placeholder]="'PRO.OBJECTIVE' | translate" formControlName="objective" />
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <textarea matInput id="description" formControlName="description"
+                        [placeholder]="'PRO.DESCRIPTION' | translate" [maxlength]="maxLength.COMMENTS"></textarea>
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'PRO.START_DATE'"></mat-label>
+                    <input type="date" matInput formControlName="startDate" />
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'PRO.END_DATE'"></mat-label>
+                    <input type="date" matInput formControlName="endDate" />
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'PRO.CATEGORY_BY_SERVICE'"></mat-label>
+                    <mat-select [compareWith]="compareObjects" formControlName="categoryByService" required>
+                        <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                        <mat-option *ngFor="let categoryByService of categoryByServiceList" [value]="categoryByService">
+                            {{ categoryByService.description }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'PRO.NIST_CATEGORY'"></mat-label>
+                    <mat-select [compareWith]="compareObjects" formControlName="nistCategory" required>
+                        <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                        <mat-option *ngFor="let nistCategory of nistCategoryList" [value]="nistCategory">
+                            {{ nistCategory.description }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'PRO.SCOPE_TYPE'"></mat-label>
+                    <input matInput [placeholder]="'PRO.SCOPE_TYPE' | translate" formControlName="scopeType" />
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'PRO.ASSET_TYPE'"></mat-label>
+                    <input matInput [placeholder]="'PRO.ASSET_TYPE' | translate" formControlName="assetType" />
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'PRO.ASSETS_NUMBER'"></mat-label>
+                    <input matInput [placeholder]="'PRO.ASSETS_NUMBER' | translate" formControlName="assetsNumber" />
+                </mat-form-field>
+
+
+
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'VM.AVS.WEB-INS.EPM_CODE'"></mat-label>
+                    <input matInput [placeholder]="'VM.AVS.WEB-INS.EPM_CODE' | translate" formControlName="epmCode"
+                        [minlength]="minLength.GENERAL" [maxlength]="maxLength.GENERAL" required />
+                    <mat-icon *ngIf="isNewTicket || ticket.idStatus == 104" style="cursor: pointer"
+                        (click)="searchEMPCode()" matSuffix>search</mat-icon>
+                    <mat-error>
+                        <app-control-error [validationSignal]="
+                                    validatorService.validateArray(formControls.epmCode, [
+                                      {
+                                        valType: 'required',
+                                        message: ('VALIDATION.ERROR.REQUIRED' | translate)
+                                      }
+                                    ])
+                                  ">
+                        </app-control-error>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'VM.AVS.WEB-INS.APPLICATION_NAME'"></mat-label>
+                    <mat-select formControlName="applicationName" (selectionChange)="onApplicationChange()" required>
+                        <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                        <mat-option [value]="0">Otra aplicaci&oacute;n</mat-option>
+                        <mat-option *ngFor="let application of applicationList" [value]="application.id">
+                            {{ application.entity }} - {{ application.name }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>
+                        <app-control-error [validationSignal]="
+                                    validatorService.validateArray(formControls.applicationName, [
+                                      {
+                                        valType: 'required',
+                                        message: ('VALIDATION.ERROR.REQUIRED' | translate)
+                                      }
+                                    ])
+                                  ">
+                        </app-control-error>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill"
+                    *ngIf="formGroup.get('applicationName').value == 0">
+                    <mat-label [translate]="'VM.AVS.WEB-INS.APPLICATION_NAME'"></mat-label>
+                    <input matInput [placeholder]="'VM.AVS.WEB-INS.APPLICATION_NAME' | translate"
+                        formControlName="applicationNameOther" [maxlength]="maxLength.GENERAL" />
+                    <mat-error>
+                        <app-control-error [validationSignal]="
+                                    validatorService.validateArray(formControls.applicationNameOther, [
+                                      {
+                                        valType: 'required',
+                                        message: ('VALIDATION.ERROR.REQUIRED' | translate)
+                                      }
+                                    ])
+                                  ">
+                        </app-control-error>
+                    </mat-error>
+                </mat-form-field>
+                <mat-card class="card-mg-bot">
+                    <mat-card-content>
+                        <section class="example-section" formGroupName="applicationType" aria-required="true">
+                            <b>{{'VM.AVS.WEB-INS.APP_TYPE' | translate}}</b>
+                            <div class="form-group row">
+                                <div class="col-lg-8">
+                                    <p *ngFor="let applicationType of applicationTypes | async">
+                                        <mat-checkbox [formControlName]="applicationType.value" [disabled]="epmFound" color="warn">{{ applicationType.value }}</mat-checkbox>
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+                    </mat-card-content>
+                </mat-card>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'VM.FLD.BUSSINESS_UNIT'"></mat-label>
+                    <input matInput [placeholder]="'VM.FLD.BUSSINESS_UNIT' | translate" formControlName="businessUnit"
+                        [disabled]="epmFound" [maxlength]="maxLength.GENERAL" />
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'VM.FLD.BUSSINESS_CHANNEL'"></mat-label>
+                    <mat-select formControlName="businessChannel">
+                        <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                        <mat-option *ngFor="let business of businessChannelList" [value]="business.id">
+                            {{ business.value }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <ng-container *ngIf="!isNewTicket">
+                    <app-projects-view (viewData)="getViewData($event)"></app-projects-view>
+                </ng-container>
+            </div>
+        </div>
+
+
+        <ng-container *ngIf="!toUpdate">
+            <h3 [translate]="'PRO.TITLE.SCOPE_LIST'"></h3>
+            <div *ngIf="isNewTicket" class="form-group row">
+                <div class="col-lg-12">
+                    <!-- <div class="mat-form-field-wrapper"> -->
+                    <button type="button" class="mr-4" mat-raised-button color="warn" (click)="openUpsertScopeModal()">
+                        <mat-icon matPrefix>add</mat-icon>
+                        {{'PRO.BTN.ADD_SCOPE' | translate}}
+                    </button>
+
+                    <!-- </div>        -->
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-12">
+                    <!-- Table -->
+                    <table #table mat-table multiTemplateDataRows [dataSource]="dataSource"
+                        class="mat-elevation-z8 w-100">
+
+                        <!-- <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> # </th>
+          <td mat-cell *matCellDef="let i = index"> {{i + 1}} </td>
+        </ng-container> -->
+
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef [translate]="'PRO.SCOPE_TABLE.H1'"></th>
+                            <td mat-cell *matCellDef="let i = dataIndex"> {{i+1}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="contacto">
+                            <th mat-header-cell *matHeaderCellDef [translate]="'PRO.SCOPE_TABLE.H2'"></th>
+                            <td mat-cell *matCellDef="let row"> {{row.contacto}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="correoContacto">
+                            <th mat-header-cell *matHeaderCellDef [translate]="'PRO.SCOPE_TABLE.H3'"></th>
+                            <td mat-cell *matCellDef="let row"> {{row.correoContacto}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="region">
+                            <th mat-header-cell *matHeaderCellDef [translate]="'PRO.SCOPE_TABLE.H4'"></th>
+                            <td mat-cell *matCellDef="let row"> {{row.region.value}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="pais">
+                            <th mat-header-cell *matHeaderCellDef [translate]="'PRO.SCOPE_TABLE.H5'"></th>
+                            <td mat-cell *matCellDef="let row"> {{row.country.value}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="entidad">
+                            <th mat-header-cell *matHeaderCellDef [translate]="'PRO.SCOPE_TABLE.H6'"></th>
+                            <td mat-cell *matCellDef="let row"> {{row.entity.value}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="totalActivos">
+                            <th mat-header-cell *matHeaderCellDef [translate]="'PRO.SCOPE_TABLE.H7'"></th>
+                            <td mat-cell *matCellDef="let row"> {{row.totalActivos}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef> </th>
+                            <td mat-cell *matCellDef="let element; let i = dataIndex">
+                                <button *ngIf="isNewTicket" type="button" mat-icon-button color="warn"
+                                    (click)="openUpsertScopeModal(element, i)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button
+                                    *ngIf="!isNewTicket && (ticket.idStatus == 5 || ticket.idStatus == 104) && (userPolicies.includes('IS&C_Staff_Ejecutor'))"
+                                    type="button" mat-icon-button color="warn" (click)="openEditScopeModal(element, i)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button *ngIf="isNewTicket" type="button" mat-icon-button color="warn"
+                                    (click)="deleteTeam(i)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                                <button *ngIf="element.details" (click)="getTicketDetail(i, element)" mat-icon-button
+                                    color="primary">
+                                    <mat-icon>search</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="expandedDetail">
+                            <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+                                <div *ngIf="row.details" class="example-element-detail"
+                                    [@detailExpand]="row === expandedElement ? 'expanded' : 'collapsed'">
+                                    <div class="" style="margin: 15px;">
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <span>{{'PRO.AP.H7' | translate}}:
+                                                    {{row.details.estadoSalud}}</span><br />
+                                                <span>{{'PRO.AP.MODAL.START_DATE' | translate}}:
+                                                    {{row.details.fechaInicio}}</span><br />
+                                                <span>{{'PRO.AP.MODAL.END_DATE' | translate}}:
+                                                    {{row.details.fechaCierre}}</span><br />
+                                                <span>{{'PRO.AP.PROJECT_STATUS' | translate}}:
+                                                    {{row.details.estadoProyecto.value}}</span>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <span>{{'PRO.AP.MODAL.DONE_ASSETS' | translate}}:
+                                                    {{row.details.activosRealizados}}</span><br />
+                                                <span>{{'PRO.AP.MODAL.PENDING_ASSETS' | translate}}:
+                                                    {{row.details.activosPendientes}}</span><br />
+                                                <span>{{'PRO.AP.MODAL.PROJECT_PROGRESS' | translate}}:
+                                                    {{row.details.avanceProyecto}}</span><br />
+                                                <span>{{'PRO.AP.COMMENTS' | translate}}:
+                                                    {{row.details.comentarios}}</span>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <span>{{'PRO.AP.MODAL.DELAY_REASON' | translate}}:
+                                                    {{row.details.razonDemora}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                            [class.example-expanded-row]="expandedElement === row"></tr>
+                        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No data</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </ng-container>
+
+        <!-- <h3 [translate]="'PRO.TITLE.ACTION_PLAN_SUMMARY'"></h3>
+        <div *ngIf="isNewTicket" class="form-group row">
+            <div class="col-lg-12">
+                <button type="button" class="mr-4" mat-raised-button color="warn" (click)="openProAPModal()">
+                    <mat-icon matPrefix>add</mat-icon>
+                    {{'PRO.BTN.ADD_ACTION_PLAN' | translate}}
+                </button>
+
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-12">
+                <table #table mat-table [dataSource]="actionPlanDataSource" class="mat-elevation-z8 w-100">
+
+                    <ng-container matColumnDef="nombreProyecto">
+                        <th mat-header-cell *matHeaderCellDef [translate]="'PRO.AP.H1'"></th>
+                        <td mat-cell *matCellDef="let row"> {{row.nombreProyecto}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fase">
+                        <th mat-header-cell *matHeaderCellDef [translate]="'PRO.AP.H2'"></th>
+                        <td mat-cell *matCellDef="let i = index"> Fase {{i+1}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="etapa">
+                        <th mat-header-cell *matHeaderCellDef [translate]="'PRO.AP.H3'"></th>
+                        <td mat-cell *matCellDef="let row"> {{row.etapa}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fechaLimite">
+                        <th mat-header-cell *matHeaderCellDef [translate]="'PRO.AP.H5'"></th>
+                        <td mat-cell *matCellDef="let row"> {{row.fechaLimite}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="estadoSalud">
+                        <th mat-header-cell *matHeaderCellDef [translate]="'PRO.AP.H7'"></th>
+                        <td mat-cell *matCellDef="let row"> {{row.estadoSalud}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> </th>
+                        <td mat-cell *matCellDef="let element; let i = index">
+                            <button *ngIf="isNewTicket" type="button" mat-icon-button color="warn"
+                                (click)="openProAPModal(element, i-1)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button *ngIf="isNewTicket" type="button" mat-icon-button color="warn"
+                                (click)="deleteAP(i)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="apDisplayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: apDisplayedColumns;"></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data</td>
+                    </tr>
+                </table>
+            </div>
+        </div> -->
+        <ng-container *ngIf="!toUpdate">
+            <mat-form-field class="ols-form-control" appearance="fill">
+                <mat-label [translate]="'PRO.PHASES_NUMBER'"></mat-label>
+                <input matInput [placeholder]="'PRO.PHASES_NUMBER' | translate" (change)="udpatePhasesNumber($event)"
+                    formControlName="phasesNumber" />
+            </mat-form-field>
+        </ng-container>
+
+        <app-pro-action-plans [projectName]="projectName" [isNewTicket]="isNewTicket" [toUpdate]="toUpdate"
+            [ticket]="ticket" *ngIf="isNewTicket || toUpdate || ticket">
+        </app-pro-action-plans>
+
+        <app-action-plans [ticket]="ticket"
+            *ngIf="!isNewTicket && !toUpdate && ticket && (userPolicies.includes('IS&C_Staff_Ejecutor')) && (ticket.idStatus == 5 || ticket.idStatus == 7 || ticket.idStatus == 8)">
+        </app-action-plans>
+
+        <mat-form-field *ngIf="(!isNewTicket || ticket.idStatus == 104) && !toUpdate" class="example-full-width">
+            <textarea matInput readonly id="comments" formControlName="comments"
+                [placeholder]="'VM.AVS.COMMENTS' | translate" rows="6"></textarea>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="(ticket.idStatus == 5 || ticket.idStatus == 104 || isNewTicket) && !toUpdate"
+            class="example-full-width">
+            <textarea matInput id="additionalComments" formControlName="additionalComments"
+                [placeholder]="'VM.AVS.ADITIONAL_COMMENTS' | translate" [maxlength]="maxLength.COMMENTS"></textarea>
+        </mat-form-field>
+
+        <app-file-upload *ngIf="isNewTicket || ticket.idStatus == 104" [label]="'Adjuntar Plan de Trabajo'"
+            (onFile)="pushObjFile($event)" [control]="'workPlan'"></app-file-upload>
+        <app-uploaded-file *ngIf="ticket && objFiles.length > 0" [objFile]="getFileByControl('workPlan')">
+        </app-uploaded-file>
+
+        <app-udf [formName]="FORM_NAME" (getFormGroup)="setUdfForm($event)"></app-udf>
+
+        <app-action-buttons [ticket]="ticket" [canBeClosed]="canBeClosed" [form]="formGroup" [canBeClosed]="canBeClosed"
+            *ngIf="!isNewTicket && ticket && (userPolicies.includes('IS&C_Staff_Ejecutor'))">
+        </app-action-buttons>
+
+        <div class="form-group row" *ngIf="isNewTicket">
+            <div class="col-lg-12">
+                <button class="mr-4 ols-action-buttons" (click)="onSubmit()" mat-raised-button color="warn">
+                    {{ "VM.BTN.SEND" | translate }}
+                </button>
+                <button class="ols-action-buttons" mat-raised-button (click)="goToList()" color="warn">
+                    {{ "VM.BTN.CANCEL" | translate }}
+                </button>
+            </div>
+        </div>
+    </form>
+</app-card-container>

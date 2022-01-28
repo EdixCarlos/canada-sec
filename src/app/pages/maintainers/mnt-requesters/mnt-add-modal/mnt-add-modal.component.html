@@ -1,0 +1,60 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <ng-container *ngIf="data.id == 0">{{'MODALS.TITLE_CREATE' | translate}}</ng-container>
+      <ng-container *ngIf="data.id > 0">{{'MODALS.TITLE_UPDATE' | translate}}</ng-container>
+      {{ 'MODALS.MNT.PROPERTY' | translate}}
+      <ng-container *ngIf="data.id > 0">: {{label}}</ng-container>
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <ng-container>
+      <form class="form form-label-right" [formGroup]="formGroup">
+        <div class="form-group row">
+          <div class="col-lg-8">
+            <mat-form-field class="ols-form-control" appearance="fill">
+              <mat-label [translate]="'MNT.REQUESTERS.NAME'"></mat-label>
+              <input matInput [placeholder]="'MNT.REQUESTERS.NAME' | translate" formControlName="name">
+              <mat-error>
+                <app-control-error [validationSignal]="validatorService.validateArray(formControls.name, 
+                    [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)},
+                    {valType:'pattern',message:('VALIDATION.ERROR.PATTERN' | translate)}])">
+                </app-control-error>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="ols-form-control" appearance="fill">
+              <mat-label [translate]="'MNT.REQUESTERS.REQUESTER_CODE'"></mat-label>
+              <input matInput [placeholder]="'MNT.REQUESTERS.REQUESTER_CODE' | translate" formControlName="requesterCode">
+              <mat-error>
+                <app-control-error [validationSignal]="validatorService.validateArray(formControls.requesterCode, 
+                    [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)},
+                    {valType:'pattern',message:('VALIDATION.ERROR.PATTERN' | translate)}])">
+                </app-control-error>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="ols-form-control" appearance="fill">
+              <mat-label [translate]="'MNT.REQUESTERS.SERVICE'"></mat-label>
+              <mat-select formControlName="idService">
+                <mat-option selected disabled>Seleccione una opci&oacute;n</mat-option>
+                <mat-option *ngFor="let service of serviceList" [value]="service.id">
+                  {{ service.nombre }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+
+  <div class="modal-footer">
+    <button ngbAutofocus type="button" class="btn btn-light btn-elevate mr-2" (click)="closeModal(false)">
+      {{ 'BUTTONS.CANCEL' | translate}}
+    </button>
+    <ng-container>
+      <button type="submit" class="btn btn-primary btn-elevate" (click)="save()">
+        {{ 'BUTTONS.SAVE' | translate}}
+      </button>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <ng-container *ngIf="label">
+        <ng-container >{{'MODALS.TITLE_UPDATE' | translate}}</ng-container>
+        {{ 'MODALS.MNT.PROPERTY' | translate}}:
+        <ng-container > {{label}}</ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">      
+    <ng-container *ngIf="label" >
+      <form class="form form-label-right" [formGroup]="formGroup">                         
+        <div class="form-group row">            
+          <div class="col-lg-8">
+              <mat-form-field class="ols-form-control" appearance="fill">
+                  <mat-label [translate]="'MODALS.FIELD.DESCRIPTION'"></mat-label>
+                  <input matInput [placeholder]="'MODALS.FIELD.DESCRIPTION' | translate" formControlName="description">
+                  <mat-error>
+                    <app-control-error [validationSignal]="validatorService.validateArray(formControls.description, 
+                    [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)},
+                    {valType:'pattern',message:('VALIDATION.ERROR.PATTERN' | translate)}])">
+                    </app-control-error>
+                  </mat-error>
+                </mat-form-field>
+                <ng-container *ngIf="switcher">
+                  <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'MODALS.FIELD.VALUE'"></mat-label>
+                    <input matInput [placeholder]="'MODALS.FIELD.VALUE' | translate" formControlName="value">
+                    <mat-error>
+                      <app-control-error [validationSignal]="validatorService.validateArray(formControls.value, 
+                      [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)},
+                      {valType:'pattern',message:('VALIDATION.ERROR.PATTERN' | translate)}])">
+                      </app-control-error>
+                    </mat-error>
+                  </mat-form-field>
+                </ng-container>                
+                <mat-form-field class="ols-form-control" appearance="fill">
+                  <mat-label [translate]="'MODALS.FIELD.PARAMETERS'"></mat-label>
+              <mat-select formControlName="unit" [(value)]="selection" (selectionChange)="verification()">
+                <mat-option [value]="-1">--</mat-option>
+                <mat-option *ngFor="let element of selectSource" [value]="element.idField">
+                  {{element.fieldDescription}}
+                </mat-option>
+              </mat-select>
+              <mat-error>
+                <app-control-error [validationSignal]="validatorService.validateArray(formControls.unit, 
+                [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)}])">
+                </app-control-error>
+              </mat-error>
+                </mat-form-field>
+          </div>            
+        </div>                
+      </form>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button ngbAutofocus type="button" class="btn btn-light btn-elevate mr-2" (click)="closeModal()">
+      {{ 'BUTTONS.CANCEL' | translate}}
+    </button>
+    <ng-container *ngIf="label">
+      <button type="submit" class="btn btn-primary btn-elevate" (click)="edit()">
+        {{ 'BUTTONS.SAVE' | translate}}
+      </button>
+    </ng-container>
+  </div>
+</div>

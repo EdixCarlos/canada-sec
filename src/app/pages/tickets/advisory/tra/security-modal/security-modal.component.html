@@ -1,0 +1,89 @@
+<app-base-modal [modalTitle]=" 'MODALS.TITLE.SECURITY_CHECKLIST' | translate">
+  <div modal-body>
+  <form class="form form-label-right" [formGroup]="formGroup" autocomplete="off">
+    <div class="form-group row">
+      <div class="col-lg-6">        
+        <mat-form-field class="ols-form-control" appearance="fill">
+          <mat-label [translate]="'MENU.MAINTAINERS.FLD_FIELD'"></mat-label>
+          <mat-select placeholder="Select an option" disableRipple
+            formControlName="field" (selectionChange)="applyFilter($event)" >              
+              <mat-option #matOption *ngFor="let element of selectSource" [value]="element.idField">
+                {{element.fieldDescription}}
+              </mat-option>
+          </mat-select>
+        </mat-form-field>       
+      </div>
+    </div>
+   
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 ">
+
+   <!--<ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> # </th>
+      <td mat-cell *matCellDef="let element; let i = index;">{{(i+1) + (paginator.pageIndex*paginator.pageSize)}}</td>
+    </ng-container>-->
+
+    <ng-container matColumnDef="domain">
+      <th mat-header-cell *matHeaderCellDef> Domain </th>
+      <td mat-cell *matCellDef="let element"> {{element.get('domain').value}} </td>
+    </ng-container> 
+
+    <ng-container matColumnDef="controls">
+      <th mat-header-cell *matHeaderCellDef> Controls </th>
+      <td mat-cell *matCellDef="let element">{{element.get('securityControl').value}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="nist">
+      <th mat-header-cell *matHeaderCellDef> NIST </th>
+      <td mat-cell *matCellDef="let element"> {{element.get('nistDomain').value}} </td>      
+    </ng-container> 
+    
+    <ng-container matColumnDef="optioner" >
+      <th mat-header-cell *matHeaderCellDef> Yes/No/NA </th>
+      <td mat-cell *matCellDef="let element" [formGroup]="element">
+        <mat-form-field >
+          <mat-select formControlName="optioner" (selectionChange)="setTmp()">
+            <mat-option value="YES">Yes</mat-option>
+            <mat-option value="NO">No</mat-option>
+            <mat-option value="N/A">N/A</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </td>
+    </ng-container>
+   
+    <ng-container matColumnDef="information">
+      <th mat-header-cell *matHeaderCellDef> Additional Information </th>
+      <td mat-cell *matCellDef="let element" [formGroup]="element">
+        <mat-form-field>
+          <input matInput  
+            formControlName="additionalInformation" [placeholder]="element.get('placeholder').value"
+            (change)="setTmp()" required>
+        </mat-form-field>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+  </table>
+</form>  
+    <mat-paginator #paginator 
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        [showFirstLastButtons]="buttonfl">
+    </mat-paginator>
+  
+  </div>
+  <div modal-footer>
+    <div >
+      <button ngbAutofocus type="button" class="btn btn-light btn-elevate mr-2" (click)="closeModal()">
+        {{ 'BUTTONS.CANCEL' | translate}}
+      </button>
+      <ng-container >
+        <button type="submit" class="btn btn-primary btn-elevate" (click)="putDataSecurityTeam()">
+          {{ 'BUTTONS.SAVE' | translate}}
+        </button>
+      </ng-container>
+    </div>
+    
+</div>
+</app-base-modal>

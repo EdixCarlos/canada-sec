@@ -1,0 +1,126 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <ng-container *ngIf="udf">
+        <ng-container *ngIf="udf.id">{{'MODALS.TITLE_UPDATE' | translate}}</ng-container>
+        <ng-container *ngIf="!udf.id">{{'MODALS.TITLE_CREATE' | translate}}</ng-container>
+        {{ 'MODALS.MNT.PROPERTY' | translate}} para {{data.subServiceType.nombre}}
+        <ng-container *ngIf="udf.id">'{{ udf.label }}'</ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <ng-container *ngIf="udf">
+      <form class="form form-label-right" [formGroup]="formGroup">
+        <div class="form-group row">
+          <div class="col-lg-8">
+            <mat-form-field class="ols-form-control" appearance="fill">
+              <mat-label [translate]="'MODALS.FIELD.CONTROL_TYPE'"></mat-label>
+              <mat-select required (selectionChange)="onChangeControlType($event)" style="z-index: 99999 !important;"
+                formControlName="controlType">
+                <mat-option style="z-index: 99999 !important;" *ngFor="let ct of controlTypes" [value]="ct">
+                  {{ct.label | translate}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="ols-form-control" appearance="fill">
+              <mat-label [translate]="'MODALS.FIELD.LABEL'"></mat-label>
+              <input required matInput [placeholder]="'MODALS.FIELD.LABEL' | translate" formControlName="label">
+            </mat-form-field>
+          </div>
+        </div>
+        <hr>
+        <!-- Validations -->
+        <div class="form-group row">
+          <div class="col-lg-8">
+            <mat-label [translate]="'MODALS.FIELD.VALIDATIONS'"></mat-label>
+          </div>
+          <div class="col-lg-4">
+            <div class="float-rigth">
+              <button (click)="addValidation()" mat-raised-button color="warn">
+                {{'BUTTONS.ADD' | translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <ng-container formArrayName="validations" *ngFor="let control of validations.controls; let i = index">
+            <div class="col-lg-8">
+              <div [formGroupName]="i">
+                <mat-form-field class="ols-form-control" appearance="fill">
+                  <mat-label [translate]="'MODALS.FIELD.VALIDATION_TYPE'"></mat-label>
+                  <mat-select #valSelect required (selectionChange)="onChangeValidationType($event, i)"
+                    style="z-index: 99999 !important;" formControlName="validationType">
+                    <mat-option [disabled]="vt.disabled" style="z-index: 99999 !important;"
+                      *ngFor="let vt of validationTypes" [value]="vt">
+                      {{vt.label | translate}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field *ngIf="hasParams.length > 0 && controlHasParams(i)" class="ols-form-control"
+                  appearance="fill">
+                  <mat-label [translate]="'MODALS.FIELD.VALIDATION_PARAMETER'"></mat-label>
+                  <input type="number" *ngIf="valSelect.value.validationType !== 'pattern'" required matInput
+                    [placeholder]="'MODALS.FIELD.VALIDATION_PARAMETER' | translate" formControlName="params">
+                  <input type="text" (change)="patternValidity($event)" id="regexInput"
+                    *ngIf="valSelect.value.validationType === 'pattern'" required matInput
+                    [placeholder]="'MODALS.FIELD.VALIDATION_PARAMETER' | translate" formControlName="params">
+                  </mat-form-field>
+                  <mat-error *ngIf="!isRegexValid && valSelect.value.validationType === 'pattern'">Error en regex</mat-error>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <button (click)="removeValidation(i)" mat-raised-button color="warn">
+                X
+              </button>
+            </div>
+          </ng-container>
+        </div>
+        <!-- Validations -->
+        <ng-container *ngIf="hasOptions">
+          <hr>
+          <div class="form-group row">
+            <div class="col-lg-8">
+              <mat-label [translate]="'MODALS.FIELD.OPTIONS'"></mat-label>
+            </div>
+            <div class="col-lg-4">
+              <div class="float-rigth">
+                <button (click)="addOption()" mat-raised-button color="warn">
+                  {{'BUTTONS.ADD' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <ng-container formArrayName="options" *ngFor="let control of options.controls; let i = index">
+              <div class="col-lg-8">
+                <div [formGroupName]="i">
+                  <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'MODALS.FIELD.OPTION_LABEL'"></mat-label>
+                    <input required matInput [placeholder]="'MODALS.FIELD.OPTION_LABEL' | translate"
+                      formControlName="label">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <button *ngIf="i!==0" (click)="removeOption(i)" mat-raised-button color="warn">
+                  X
+                </button>
+              </div>
+            </ng-container>
+          </div>
+        </ng-container>
+      </form>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button ngbAutofocus type="button" class="btn btn-light btn-elevate mr-2" (click)="close()">
+      {{ 'BUTTONS.CANCEL' | translate}}
+    </button>
+    <ng-container *ngIf="udf">
+      <button [disabled]="!formGroup.valid || !isRegexValid" type="submit" class="btn btn-primary btn-elevate" (click)="submit()">
+        {{ 'BUTTONS.SAVE' | translate}}
+      </button>
+    </ng-container>
+  </div>
+</div>

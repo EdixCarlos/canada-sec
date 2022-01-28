@@ -1,0 +1,83 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <ng-container *ngIf="label">
+        <ng-container >{{'MODALS.TITLE_UPDATE' | translate}}</ng-container>
+        {{ 'MODALS.MNT.PROPERTY' | translate}}:
+        <ng-container > {{label}}</ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">      
+    <ng-container *ngIf="label" >
+      <form class="form form-label-right" [formGroup]="formGroup">                         
+        <div class="form-group row">            
+          <div class="col-lg-8">
+              <mat-form-field class="ols-form-control" appearance="fill">
+                  <mat-label [translate]="'MODALS.FIELD.REGION'"></mat-label>
+                  <input matInput [placeholder]="'MODALS.FIELD.REGION' | translate" formControlName="region">
+                  <mat-error>
+                    <app-control-error [validationSignal]="validatorService.validateArray(formControls.region, 
+                    [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)},
+                    {valType:'pattern',message:('VALIDATION.ERROR.PATTERN' | translate)}])">
+                    </app-control-error>
+                  </mat-error>
+                </mat-form-field>
+                <ng-container *ngIf="switcher">
+                  <mat-form-field class="ols-form-control" appearance="fill">
+                    <mat-label [translate]="'MODALS.FIELD.SUB_REGION'"></mat-label>
+                    <input matInput [placeholder]="'MODALS.FIELD.SUB_REGION' | translate" formControlName="subregion">
+                    <mat-error>
+                      <app-control-error [validationSignal]="validatorService.validateArray(formControls.subregion, 
+                      [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)},
+                      {valType:'pattern',message:('VALIDATION.ERROR.PATTERN' | translate)}])">
+                      </app-control-error>
+                    </mat-error>
+                  </mat-form-field>
+                </ng-container>                
+                <mat-form-field class="ols-form-control" appearance="fill">
+                  <mat-label [translate]="'MODALS.FIELD.COUNTRY'"></mat-label>
+                  <input matInput [placeholder]="'MODALS.FIELD.COUNTRY' | translate" formControlName="country">
+                  <mat-error>
+                    <app-control-error [validationSignal]="validatorService.validateArray(formControls.country, 
+                    [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)},
+                    {valType:'pattern',message:('VALIDATION.ERROR.PATTERN' | translate)}])">
+                    </app-control-error>
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                  <mat-label [translate]="'MODALS.FIELD.ENTITY'"></mat-label>
+                  <input matInput [placeholder]="'MODALS.FIELD.ENTITY' | translate" formControlName="entity">
+                  <mat-error>
+                    <app-control-error [validationSignal]="validatorService.validateArray(formControls.entity, 
+                    [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)},
+                    {valType:'pattern',message:('VALIDATION.ERROR.PATTERN' | translate)}])">
+                    </app-control-error>
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="ols-form-control" appearance="fill">
+                  <mat-label [translate]="'MODALS.FIELD.BS_UNIT'"></mat-label>
+                  <input matInput [placeholder]="'MODALS.FIELD.BS_UNIT' | translate" formControlName="bussiness_unit">
+                  <mat-error>
+                    <app-control-error [validationSignal]="validatorService.validateArray(formControls.bussiness_unit, 
+                    [{valType:'required',message:('VALIDATION.ERROR.REQUIRED' | translate)},
+                    {valType:'pattern',message:('VALIDATION.ERROR.PATTERN' | translate)}])">
+                    </app-control-error>
+                  </mat-error>
+                </mat-form-field>
+          </div>            
+        </div>                
+      </form>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button ngbAutofocus type="button" class="btn btn-light btn-elevate mr-2" (click)="closeModal()">
+      {{ 'BUTTONS.CANCEL' | translate}}
+    </button>
+    <ng-container *ngIf="label">
+      <button type="submit" class="btn btn-primary btn-elevate" (click)="edit()">
+        {{ 'BUTTONS.SAVE' | translate}}
+      </button>
+    </ng-container>
+  </div>
+</div>
